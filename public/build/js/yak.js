@@ -9547,6 +9547,8 @@ module.exports = function () {
 
         $('section.messages').append( html );
 
+        $('.messages').animate({ scrollTop: $('.messages').height()}, 1000);
+
 
       });
     }
