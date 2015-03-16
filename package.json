@@ -1,0 +1,73 @@
+{
+    "name": "yak",
+    "version": "0.0.1",
+    "description": "",
+    "main": "server.js",
+    "private": false,
+    "author": {
+        "name": "Jesse Weed",
+        "email": "jesse@jesseweed.com",
+        "url": "http://jesseweed.com"
+    },
+    "license": "MIT",
+    "homepage": "",
+    "repository": "",
+    "bugs": "",
+    "keywords": [
+        "node",
+        "io",
+        "koa",
+        "mvc",
+        "framework",
+        "pog",
+        "js",
+        "rest",
+        "api",
+        "app"
+    ],
+    "engines": {
+        "iojs": "^1.3.x",
+        "npm": "^0.1.12"
+    },
+    "dependencies": {
+        "browser-sync": "^2.2.1",
+        "colors": "^1.0.3",
+        "koa": "^0.18.0",
+        "koa-cors": "0.0.14",
+        "koa-gzip": "^0.1.0",
+        "koa-hbs": "^0.5.0",
+        "koa-jade": "latest",
+        "koa-less": "0.0.3",
+        "koa-polyfills": "^2.0.0",
+        "koa-route": "^2.4.0",
+        "koa-sass": "^1.0.0",
+        "koa-static": "^1.4.9",
+        "koa-stylus": "0.0.3",
+        "koajs-nunjucks": "^1.0.1",
+        "pog-router": "0.1.1",
+        "socket.io": "^1.3.4",
+        "thinky": "^1.16.6",
+        "bower": "latest",
+        "stylus": "latest"
+    },
+    "devDependencies": {
+        "gulp": "^3.8.11",
+        "gulp-autoprefixer": "^2.1.0",
+        "gulp-csso": "^1.0.0",
+        "gulp-if": "^1.2.5",
+        "gulp-load-plugins": "^0.8.1",
+        "gulp-nodemon": "^1.0.5",
+        "gulp-size": "^1.2.1"
+    },
+    "scripts": {
+        "start": "node server.js"
+    },
+    "readme": "# Pog JS\n\n[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/pogjs/pog?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)\n[![npm version](https://badge.fury.io/js/pog-core.svg)](http://badge.fury.io/js/pog-core)\n[![Dependency Status](https://gemnasium.com/pogjs/core.png)](https://gemnasium.com/pogjs/core)\n\nPog is a modern MVC style framework built on top of [io.js](http://iojs.org) and [koa](http://koajs.com). It's built to be fast, simple and easy to configure, with sane defaults and flexible boilerplates to get you up and running as quickly as possible.\n\nIt's a work in progress, check back often for updates.\n\nFull documentation will be coming soon. \n\n\n#### DEPENDENCIES\nPog takes advatage of the latest ES6 updates, and requies either io.js or node.js 0.12+ with the --harmony flag.\n\n\n#### INSTALL COMMAND LINE TOOL\n\n```\n$ npm install pog -g\n```\n\n\n#### CREATE A NEW APP\n\n```\n$ pog myapp\n```\n\nPog uses Jade by default, but you also have the option of handlebars or nunjucks (more coming soon).\n\n###### CREATE NEW APP WITH NUNJUCKS\n\n```\n$ pog myapp --html nunjucks\n```\n\n###### CREATE NEW APP WITH HANDLEBARS\n\n```\n$ pog myapp --html handlebars\n```\n\n\n#### START THE SERVER\n\nAssuming you have io.js installed\n\n```\n$ gulp start\n```\n\nor\n\n```\n$ iojs server.js\n```\n\nor if you prefer to stick with node and have at least version 0.12 installed:\n\n```\n$ node --harmony server.js\n```\n\n\n## Getting Started Guide\nA full getting starting guide is in the works, in the meantime, check out the docs below (still a work in progress).\n\n\n\n## Docs\n\n[Config](docs/config.md)\n\n[Models](docs/models.md)\n\n\n\n",
+    "readmeFilename": "README.md",
+    "gitHead": "58b67b9a1a4dd4b72e892c5fcd605ad931a54daf",
+    "_id": "pog-core@0.4.3",
+    "_shasum": "392d8a175071dbe670d3822fa58881fed2827000",
+    "_from": "pog-core@>=0.4.2 <0.5.0",
+    "contributors": "",
+    "licenses": ""
+}

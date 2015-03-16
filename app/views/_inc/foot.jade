@@ -1,0 +1,17 @@
+script(src='#{site.public.components}jquery/dist/jquery.js')
+
+
+//- Load polyfill script
+if ( locals.site.config.polyfills === true )	
+	script(src='#{site.address}polyfill.js')
+
+//- ENABLE SOCKET.IO
+if ( locals.site.config.sockets === true )	
+	script(src="#{site.address}socket.io/socket.io.js")
+	script.
+		var socket = window.socket = io.connect();
+
+//- Allows you to pass a "js" array of page specific scripts to load
+if locals.js
+	each script in js
+		script(src='#{site.public.js}#{script}')
