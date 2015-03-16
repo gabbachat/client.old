@@ -1,0 +1,17 @@
+extends layouts/chat
+
+block content
+
+  aside.rooms
+    h2 Rooms
+    
+  section.content
+    
+    section.header
+      h1 #
+        span= room
+    
+    section.messages
+          
+    section.footer
+      input(id='user-input', name='user-input').user-input

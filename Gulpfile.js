@@ -3,19 +3,21 @@ var app = {};
 require('./config/_settings')(app);
 require('./config/environment/development')(app);
 
-var browserSync = require('browser-sync'),
+var babel = require('gulp-babel'),
+    browserify = require('gulp-browserify'),
+    browserSync = require('browser-sync'),
     colors      = require('colors'),
     gulp        = require('gulp'),
     path        = require('path'),
     dir         = {
       app       : 'server.js',
-      // build : app.config.buildDir,
-      css       : app.dir.public + 'css/**/*.css',
-      img       : app.dir.public + 'img/**/*',
-      js        : [app.dir.public + 'js/**/*', 'app/**/*.js'],
-      public    : app.dir.public,
-      stylus    : app.dir.public + 'css/**/*.styl',
-      lib       : app.dir.public + 'lib/**/*'
+      build     : './public/build/',
+      css       : './public/css/**/*.css',
+      img       : './public/img/**/*',
+      js        : ['./public/js/**/*', 'app/**/*.js'],
+      public    : './public/',
+      stylus    : './public/css/**/*.styl',
+      lib       : './public/lib/**/*'
     },
     $           = require('gulp-load-plugins')(),
     reload      = browserSync.reload;
@@ -33,10 +35,14 @@ function inform(msg) {
 gulp.task('start', ['default']);
 
 // DEFAULT TASK, HANDLES ALL BASIC SERVER STUFF
-gulp.task('default', ['css', 'js', 'browserSync'], function () {
+gulp.task('default', ['css', 'img', 'js', 'browserSync'], function () {
   gulp.watch(dir.less, ['css'] );
-  gulp.watch(dir.js, ['js', reload]);
-  gulp.watch(dir.img);
+  gulp.watch(dir.js, ['js', 'jsChange'] );
+  gulp.watch(dir.img, ['img']);
+});
+
+gulp.task('jsChange', function() {
+  console.log('js changed');
 });
 
 // BROWSER SYNC - http://www.browsersync.io/docs/gulp/
@@ -77,10 +83,8 @@ gulp.task('css', function () {
   ]}))
   // Concatenate and minify styles
   .pipe($.if('*.css', $.csso()))
-  .pipe(gulp.dest(app.dir.public + '_dist/css'))
+  .pipe(gulp.dest(dir.build + 'css'))
   .pipe($.size({title: 'css'}));
-
-  // CSS MINIFICATION WILL GO HERE. POSSIBLY SASS & LESS UNTIL THEY WORK IN IO
 
 }); // END: CSS TASK
 
@@ -89,12 +93,15 @@ gulp.task('css', function () {
 
 // IMAGES
 gulp.task('img', function () {
-  return gulp.src(app.dir.public + 'img/**/*')
+
+  inform('Running gulp task "IMG"');
+
+  return gulp.src(dir.img)
     .pipe($.cache($.imagemin({
       progressive: true,
       interlaced: true
     })))
-    .pipe(gulp.dest('dist/images'))
+    .pipe(gulp.dest(dir.build + 'img'))
     .pipe($.size({title: 'images'}));
 
 }); // END: IMG TASK
@@ -105,10 +112,16 @@ gulp.task('js', function() {
 
   inform('Running gulp task "JS"');
 
-  return gulp.src(dir.js)
-    .pipe($.size({title: 'javascript'}));
+  gulp.src(dir.public + 'js/yak.js')
+      .pipe(babel())
+      .pipe(browserify({
+        insertGlobals : false,
+        debug : false
+      }))
+      .pipe(gulp.dest(dir.build + 'js'));
 
 }); // END: JS TASK
+
 
 
 // NODEMON
@@ -120,7 +133,7 @@ gulp.task('nodemon', function (cb) {
   return $.nodemon({
     script: 'server.js',
     ext: 'js, jade, hbs, nj, styl, sass, less, css',
-    ignore: ['README.md', '.DS_Store'],
+    ignore: ['README.md', 'node_modules', '.DS_Store'],
     'execMap': {
       'js': 'iojs'
     }
@@ -131,8 +144,9 @@ gulp.task('nodemon', function (cb) {
     }
   })
   .on('restart', function () {
-    setTimeout(function () {
-      reload({ stream: false });
-    }, 1000);
+    console.log('resterting server...');
+    // setTimeout(function () {
+      // reload({ stream: false });
+    // }, 1000);
   });
 });

@@ -12,7 +12,63 @@ module.exports = function (app, session) {
   // ON CONNECTION
   io.on('connection', function (socket){
 
+    socket.emit('connect');
+
+    // CONNECT USER
+    socket.on('user:login', function(user) {
+
+      let id = user.handle;
+
+      socket.join('yak');
+      socket.join('yak:' + id);
+
+      console.log(id + ' connected');
+
+      io.to('yak:' + id).emit('user:connected', {
+        handle : id
+      });
+
+    });
+
+
+    // JOIN ROOM
+    socket.on('room:join', function(data) {
+
+      let id = data.user,
+          room = data.room;
+      console.log(id + ' would like to join ' + room);
+
+      socket.join('yak:' + room);
+      socket.join('yak:' + room + ':' + id);
+
+      io.to('yak:' + room + ':' + id).emit('room:success', {
+        handle : id,
+        room : room,
+        message : 'Welcome to the ' + room + ' channel!'
+      });
+
+      io.to('yak:' + room).emit('room:welcome', {
+        handle : id,
+        room : room,
+        message : 'Welcome to the ' + room + ' channel!'
+      });
+
+    });
+
+
+    socket.on('message:send', function(data) {
+      console.log('message received');
+      console.log(data);
+
+      io.to('yak:' + data.room).emit(data.room + ':message', {
+        msg: data.msg,
+        from: data.user
+      });
+
+    });
+
   });
+
 
 
 };

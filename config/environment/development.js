@@ -5,8 +5,9 @@ var os = require('os');
 
 module.exports = function (app) {
 
-  var interfaces = os.networkInterfaces();
-  var addresses = [];
+  var interfaces = os.networkInterfaces(),
+      addresses = [];
+
   for (var k in interfaces) {
     for (var k2 in interfaces[k]) {
       var address = interfaces[k][k2];
@@ -25,11 +26,13 @@ module.exports = function (app) {
 
   // directories
   app.public = {
+    build : app.address + 'build/',
     components : app.address + 'components/',
     css : app.address + 'css/',
     img : app.address + 'img/',
-    lib : app.address + 'lib/',
-    js : app.address + 'js/'
+    lib : app.address + 'components/',
+    js : app.address + 'js/',
+    root : app.address + 'root/'
   };
 
   console.log('INFO:'.blue + ' ' + app.env.yellow + ' config loaded' );

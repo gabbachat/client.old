@@ -6,18 +6,20 @@ var os = require('os');
 module.exports = function (app) {
 
   // global settings
-  app.domain = 'staging.mydomain.com';
-  app.env = 'staging';
+  app.domain = 'yakstaging.herokuapp.com';
+  app.env = 'production';
   app.address = app.config.protocol + app.domain + '/'; // base url
 
   // directories
   app.public = {
-    components : app.address + 'components/',
+    build : app.address + 'build/',
     css : app.address + 'css/',
     img : app.address + 'img/',
-    lib : app.address + 'lib/',
-    js : app.address + 'js/'
+    lib : app.address + 'components/',
+    js : app.address + 'js/',
+    root : app.address + 'root/'
   };
+
 
   app.log('INFO:'.blue + ' ' + app.env.yellow + ' config loaded' );
 

@@ -1,0 +1,70 @@
+.rooms {
+  background-color: rgba(0,0,0,0.8);
+  color: rgba(255,255,255,0.8);
+  width: 25%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 10px;
+}
+.rooms h2 {
+  font-weight: 100;
+}
+.content {
+  background-color: rgba(0,0,0,0.01);
+  width: 75%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 25%;
+}
+.header {
+  background-color: rgba(0,0,0,0.1);
+  width: 100%;
+  height: 10%;
+  padding: 25px;
+  position: relative;
+  top: 0;
+  left: 0;
+}
+.messages {
+  width: 100%;
+  height: 80%;
+  padding: 20px;
+  position: relative;
+  left: 0;
+}
+.footer {
+  width: 100%;
+  height: 10%;
+  padding: 20px;
+  position: relative;
+  bottom: 0;
+  left: 0;
+}
+.footer .user-input {
+  border: solid 2px #ccc;
+  border-radius: 5px;
+  width: 100%;
+  padding: 10px;
+}
+.message {
+  padding: 10px;
+}
+.message .from {
+  font-weight: bold;
+  color: rgba(0,0,0,0.9);
+}
+.message .text {
+  font-weight: 300;
+  color: rgba(0,0,0,0.5);
+}
+.message.new-user .join {
+  font-weight: 100;
+  color: #008000;
+}
+.message.new-user .leave {
+  font-weight: 100;
+  color: #f00;
+}
