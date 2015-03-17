@@ -23,6 +23,8 @@ module.exports = function () {
         var handle = localStorage.getItem('_id');
 
         User.login( handle );
+      } else {
+        if ( Browser.segment(1) === 'group' ) location.href='/';
       }
 
     },
@@ -39,6 +41,11 @@ module.exports = function () {
       // LOGIN WHEN USER PRESSE ENTER KEY
       $('#username').on('keyup', function(e) {
         if ( e.keyCode === 13 ) User.login( $('#username').val() );
+      });
+
+      $('.logout').click(function() {
+        localStorage.clear();
+        location.href='/';
       });
 
     },

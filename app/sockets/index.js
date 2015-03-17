@@ -47,6 +47,10 @@ module.exports = function (app, session) {
         message : 'Welcome to the ' + room + ' channel!'
       });
 
+      console.log('connected users');
+      // var users = io.of();
+      console.log( io.sockets.adapter.rooms['yak:' + room] );
+
       io.to('yak:' + room).emit('room:welcome', {
         handle : id,
         room : room,

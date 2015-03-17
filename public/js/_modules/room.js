@@ -161,13 +161,11 @@ module.exports = function () {
 
       socket.on('room:welcome', function( data ) {
 
-        if ( data.handle !== localStorage.getItem('_id') ) {
-          var html = '<div class="message new-user">';
-          html = html + '<div class="join">' + data.handle + ' has joined the room</div>';
-          html = html + '</div>';
+        $('.active-users ul li').each(function() {
+          if ( $(this).data('handle') === data.handle ) $(this).remove();
+        });
 
-          // $('section.messages').append( html );
-        }
+        $('.active-users ul').append('<li data-handle="' + data.handle + '">' + data.handle + '</li>');
 
       });
 

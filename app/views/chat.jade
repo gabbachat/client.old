@@ -5,8 +5,8 @@ block content
   aside.rooms
     section.user
       img(src='#{site.public.img}avatars/users/default.png').avatar
-      h1.user-name Splinter
-      h2.user-handle @splinter
+      h1.user-name
+      h2.user-handle
     
     section.public-groups
       h2 Public Groups
@@ -20,6 +20,12 @@ block content
         li(data-name="spam", onclick="location.href='spam'")
           a(href="spam") Spam
     
+    section.active-users
+      h2 Active Users
+      ul          
+    
+  div.logout click here to logout
+      
   section.content
     
     section.header
