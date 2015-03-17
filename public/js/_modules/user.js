@@ -2,7 +2,7 @@
 
 module.exports = function () {
 
-  const $       = require('jquery-browserify'),
+  var $       = require('jquery-browserify'),
         Browser    = require('../_modules/browser'),
         Room    = require('../_modules/room')(),
         Socket  = window.socket;

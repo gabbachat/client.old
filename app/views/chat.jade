@@ -3,15 +3,36 @@ extends layouts/chat
 block content
 
   aside.rooms
-    h2 Rooms
+    section.user
+      img(src='#{site.public.img}avatars/users/default.png').avatar
+      h1.user-name Splinter
+      h2.user-handle @splinter
+    
+    section.public-groups
+      h2 Public Groups
+      ul
+        li(data-name="dev", onclick="location.href='dev'")
+          a(href="dev") Dev
+        li(data-name="main", onclick="location.href='main'")
+          a(href="main") Main
+        li(data-name="seattle", onclick="location.href='seattle'")
+          a(href="seattle") Seattle
+        li(data-name="spam", onclick="location.href='spam'")
+          a(href="spam") Spam
     
   section.content
     
     section.header
-      h1 #
-        span= room
+      
+      img(src='#{site.public.img}avatars/rooms/default.png').channel-avatar
+      
+      h1= room
+      
+      h3 “#{slogan}”
     
     section.messages
           
     section.footer
-      input(id='user-input', name='user-input').user-input
+      img(src='#{site.public.img}avatars/users/default.png').avatar
+      textarea(id='user-input', name='user-input', placeholder='Click here to type a message. Please enter to send.').user-input
+      button.send Send

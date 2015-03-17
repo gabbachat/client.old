@@ -9,10 +9,23 @@ module.exports = function(app) {
 
   app.use(_.get('/:chat/:room', function *(term, room) {
 
+    var slogan;
+
+    if ( room === 'spam' ) {
+      slogan = 'Spam! Lovely spam! Lovely spam!';
+    } else if ( room === 'seattle' ) {
+      slogan = 'Would the last person to leave seattle please turn out the lights?';
+    } else {
+      slogan = 'Greetings earthling! Welcome to the ' + room + ' room!';
+    }
+
+    console.log('loading room: ' + room);
+
     return yield this.render('chat', {
       title : app.name,
       site : app,
-      room : room
+      room : room,
+      slogan : slogan
     });
 
   }));

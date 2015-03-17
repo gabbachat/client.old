@@ -9335,7 +9335,7 @@ return jQuery;
 },{}],2:[function(require,module,exports){
 'use strict';
 
-const $ = require('jquery-browserify');
+var $ = require('jquery-browserify');
 
 
 // GET BASIC BROWSER INFO
@@ -9458,7 +9458,8 @@ exports.size = function ( which ) {
 
 module.exports = function () {
 
-  const $       = require('jquery-browserify'),
+  var $       = require('jquery-browserify'),
+        Browser    = require('../_modules/browser'),
         socket  = window.socket;
 
   return {
@@ -9494,6 +9495,70 @@ module.exports = function () {
 
     },
 
+    fileExists : function (url) {
+        var http = new XMLHttpRequest();
+        http.open('HEAD', url, false);
+        http.send();
+        return http.status;
+    },
+
+    avatarRoot : '../../img/avatars/',
+
+    setImage : function ( img, alt, el ) {
+
+      var Room = this;
+
+      $.ajax({
+        url : Room.avatarRoot + img,
+        type : 'HEAD',
+        error: function() {
+          console.log(Room.avatarRoot + img + ' could not be found.');
+          el.attr( 'src', Room.avatarRoot + alt );
+        },
+        success: function() {
+          el.attr( 'src', Room.avatarRoot + img );
+        }
+      });
+
+    },
+
+
+    setMessageImage : function ( data ) {
+
+      var Room = this;
+
+      $.ajax({
+        url : Room.avatarRoot + 'users/' + data.from + '.png',
+        type : 'HEAD',
+        error: function() {
+
+          var html = '<div class="message">';
+          html = html + '<img src="../../img/avatars/users/default.png" class="avatar">';
+          html = html + '<div class="from">' + data.from + '</div>';
+          html = html + '<div class="text">' + data.msg + '</div>';
+          html = html + '</div>';
+
+          $('section.messages').append( html );
+          $('.messages').animate({ scrollTop: $('.messages').height()}, 1000);
+
+
+        },
+        success: function() {
+
+          var html = '<div class="message">';
+          html = html + '<img src="../../img/avatars/users/' + data.from + '.png" class="avatar">';
+          html = html + '<div class="from">' + data.from + '</div>';
+          html = html + '<div class="text">' + data.msg + '</div>';
+          html = html + '</div>';
+
+          $('section.messages').append( html );
+          $('.messages').animate({ scrollTop: $('.messages').height()}, 1000);
+
+        }
+      });
+
+    },
+
     // WHEN ROOM HAS BEEN JOINED
     success : function () {
 
@@ -9502,6 +9567,43 @@ module.exports = function () {
       socket.on('room:success', function( data ) {
         localStorage.setItem('currentRoom', data.room );
         Room.receiveMessage(data.room);
+
+        // SET UPPER USER AVATAR
+        Room.setImage(
+          'users/' + data.handle + '.png',
+          'users/default.png',
+          $('.rooms .user .avatar')
+        );
+
+        // SET LOWER AVATAR
+        Room.setImage(
+          'users/' + data.handle + '.png',
+          'users/default.png',
+          $('.footer .avatar')
+        );
+
+        // SET ROOM AVATAR
+        Room.setImage(
+          'rooms/' + data.room + '.png',
+          'rooms/default.png',
+          $('.header .channel-avatar')
+        );
+
+        $('.rooms .user .user-name').html( localStorage.getItem('_id') );
+        $('.rooms .user .user-handle').html( '@' + localStorage.getItem('_id') );
+
+
+        $('.public-groups li').removeClass('selected');
+
+        $('.public-groups li').each(function() {
+
+          if ( $(this).data('name') === data.room ) {
+            $(this).addClass('selected');
+          }
+        });
+
+        // SET CURRENT ROOM
+
       });
 
 
@@ -9520,7 +9622,7 @@ module.exports = function () {
           html = html + '<div class="join">' + data.handle + ' has joined the room</div>';
           html = html + '</div>';
 
-          $('section.messages').append( html );
+          // $('section.messages').append( html );
         }
 
       });
@@ -9538,18 +9640,10 @@ module.exports = function () {
 
     receiveMessage : function ( room ) {
 
+      var Room = this;
+
       socket.on( room + ':message', function( data ) {
-
-        var html = '<div class="message">';
-        html = html + '<div class="from">' + data.from + '</div>';
-        html = html + '<div class="text">' + data.msg + '</div>';
-        html = html + '</div>';
-
-        $('section.messages').append( html );
-
-        $('.messages').animate({ scrollTop: $('.messages').height()}, 1000);
-
-
+        Room.setMessageImage(data);
       });
     }
 
@@ -9557,12 +9651,12 @@ module.exports = function () {
 
 };
 
-},{"jquery-browserify":1}],4:[function(require,module,exports){
+},{"../_modules/browser":2,"jquery-browserify":1}],4:[function(require,module,exports){
 'use strict';
 
 module.exports = function () {
 
-  const $       = require('jquery-browserify'),
+  var $       = require('jquery-browserify'),
         Browser    = require('../_modules/browser'),
         Room    = require('../_modules/room')(),
         Socket  = window.socket;

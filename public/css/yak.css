@@ -1,72 +1,214 @@
+html,
+body {
+  background: #192126;
+}
 .rooms {
-  background-color: rgba(0,0,0,0.8);
+  background-color: #192126;
   color: rgba(255,255,255,0.8);
-  width: 25%;
-  height: 100%;
+  width: 260px;
   position: absolute;
-  top: 0;
-  left: 0;
+  top: 0px;
+  left: 0px;
+  bottom: 0px;
+  padding: 0px;
+  z-index: 99;
+}
+.rooms .public-groups {
+  color: #f0da8c;
+  margin-top: 20px;
+}
+.rooms .public-groups h2 {
+  font-size: 16px;
+  margin-bottom: 7px;
+  padding-left: 20px;
+}
+.rooms .public-groups ul {
+  margin: 0;
+  padding: 0;
+}
+.rooms .public-groups ul li {
+  color: #a09981;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: block;
+  padding: 3px 3px 3px 20px;
+}
+.rooms .public-groups ul li a {
+  color: #a09981;
+  text-decoration: none;
+}
+.rooms .public-groups ul li.selected {
+  background-color: #a09981;
+  color: #192126;
+}
+.rooms .public-groups ul li.selected a {
+  color: #192126;
+}
+.rooms .public-groups ul li:hover {
+  cursor: pointer;
+  opacity: 0.7;
+}
+.rooms .user {
+  background-color: #1f333e;
   padding: 10px;
 }
-.rooms h2 {
+.rooms .user .avatar {
+  margin-top: -10px;
+  margin-left: -10px;
+  margin-bottom: -10px;
+  margin-right: 10px;
+  width: 60px;
+  float: left;
+}
+.rooms .user .user-name {
+  color: #c5dae5;
+  font-family: 'Vollkorn', serif;
+  font-size: 18px;
+  font-style: italic;
   font-weight: 100;
+  margin: 0;
+  margin-bottom: -10px;
+  text-transform: capitalize;
+}
+.rooms .user .user-handle {
+  color: #538eae;
+  font-size: 12px;
+  letter-spacing: 1px;
+  margin: 0;
+  margin-bottom: -2px;
 }
 .content {
   background-color: rgba(0,0,0,0.01);
-  width: 75%;
   height: 100%;
+  left: 260px;
   position: absolute;
+  right: 0;
   top: 0;
-  left: 25%;
 }
 .header {
-  background-color: rgba(0,0,0,0.1);
+  background: #fff;
+  color: rgba(8,8,8,0.9);
   width: 100%;
-  height: 10%;
-  padding: 25px;
-  position: relative;
+  height: 50px;
+  position: absolute;
+  z-index: 10;
   top: 0;
   left: 0;
 }
+.header .channel-avatar {
+  width: 80px;
+  float: left;
+  border: solid 5px #e2e9ed;
+  margin: 15px 10px 15px 15px;
+}
+.header h1 {
+  background: #fff;
+  margin-top: 27px;
+  margin-bottom: 0px;
+  color: #617885;
+  font-family: 'Vollkorn', serif;
+  font-size: 22px;
+  text-transform: capitalize;
+  font-style: italic;
+  font-weight: 100;
+}
+.header h3 {
+  background: #e2e9ed;
+  padding: 10px;
+  color: #93a7b2;
+  font-size: 14px;
+  font-family: 'Vollkorn', serif;
+  left: 0px;
+  font-style: italic;
+  font-weight: 100;
+}
 .messages {
-  background: rgba(255,255,255,0.9);
-  width: 100%;
-  height: 80%;
-  padding: 20px;
-  position: relative;
+  background: #fff;
+  top: 99px;
+  bottom: 70px;
+  padding: 10px;
+  position: absolute;
   left: 0;
+  right: 0;
   overflow: auto;
+  z-index: 9;
 }
-.footer {
-  width: 100%;
-  height: 10%;
-  padding: 20px;
-  position: relative;
-  bottom: 0;
-  left: 0;
-}
-.footer .user-input {
-  border: solid 2px #52a0c0;
-  border-radius: 5px;
-  width: 100%;
+.messages .message {
   padding: 10px;
+  margin-bottom: 15px;
 }
-.message {
-  padding: 10px;
+.messages .message .tag {
+  color: #71bee9;
 }
-.message .from {
-  font-weight: bold;
-  color: rgba(0,0,0,0.9);
+.messages .message .avatar {
+  width: 50px;
+  margin: 5px 10px 0 10px;
+  float: left;
 }
-.message .text {
+.messages .message .from {
+  font-family: 'Vollkorn', serif;
+  color: #b1c2cc;
+}
+.messages .message .text {
   font-weight: 300;
-  color: rgba(0,0,0,0.5);
+  color: #192126;
+  margin-left: 70px;
 }
-.message.new-user .join {
+.messages .message.new-user .join {
   font-weight: 100;
   color: #008000;
 }
-.message.new-user .leave {
+.messages .message.new-user .leave {
   font-weight: 100;
   color: #f00;
+}
+.footer {
+  height: 70px;
+  bottom: 0px;
+  padding: 0px;
+  position: fixed;
+  left: 260px;
+  right: 0px;
+  z-index: 10;
+  background: #fff;
+  -webkit-box-shadow: 0px -5px 6px -1px rgba(0,0,0,0.05);
+  -moz-box-shadow: 0px -5px 6px -1px rgba(0,0,0,0.05);
+  box-shadow: 0px -5px 6px -1px rgba(0,0,0,0.05);
+}
+.footer .avatar {
+  width: 50px;
+  margin: 10px 0 0 10px;
+  float: left;
+}
+.footer .send-message,
+.footer .user-input {
+  border: none;
+  resize: none;
+  width: 90%;
+  padding: 10px;
+  height: 100%;
+  display: inline-block;
+  overflow: hidden;
+  margin-bottom: -10px;
+}
+.footer button.send {
+  display: none;
+  list-style: none;
+  border-radius: 5px;
+  background: #0083cf;
+  text-align: left;
+  padding: 10px;
+  margin-bottom: 20px;
+  margin-left: 10px;
+  color: #fff;
+  border: none;
+  float: right;
+  width: 15%;
+  height: 100%;
+  margin-left: -50px;
+  text-align: center;
+  font-weight: 500;
+  font-size: 17px;
+  margin-bottom: -10px;
 }

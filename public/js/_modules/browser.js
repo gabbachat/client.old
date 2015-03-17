@@ -1,6 +1,6 @@
 'use strict';
 
-const $ = require('jquery-browserify');
+var $ = require('jquery-browserify');
 
 
 // GET BASIC BROWSER INFO

@@ -1,20 +1,41 @@
-.message
+.messages
+  background rgba(255,255,255,1);
+  top 99px
+  bottom 70px
   padding 10px
+  position absolute
+  left 0
+  right 0
+  overflow auto
+  z-index 9
 
-  .from
-    font-weight bold
-    color rgba(0,0,0,0.9)
+  .message
+    padding 10px
+    margin-bottom 15px
 
-  .text
-    font-weight 300
-    color rgba(0,0,0,0.5)
+    .tag
+      color #71bee9
 
-  &.new-user
+    .avatar
+      width 50px
+      margin 5px 10px 0 10px
+      float left
 
-    .join
-      font-weight 100
-      color green
+    .from
+      font-family: 'Vollkorn', serif;
+      color #b1c2cc
 
-    .leave
-      font-weight 100
-      color red
+    .text
+      font-weight 300
+      color #192126
+      margin-left 70px
+
+    &.new-user
+
+      .join
+        font-weight 100
+        color green
+
+      .leave
+        font-weight 100
+        color red
