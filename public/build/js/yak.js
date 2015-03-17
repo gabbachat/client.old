@@ -9512,11 +9512,12 @@ module.exports = function () {
         url : Room.avatarRoot + img,
         type : 'HEAD',
         error: function() {
-          console.log(Room.avatarRoot + img + ' could not be found.');
           el.attr( 'src', Room.avatarRoot + alt );
+          $('img').animate({opacity: 1}, 500 );
         },
         success: function() {
           el.attr( 'src', Room.avatarRoot + img );
+          $('img').animate({opacity: 1}, 500 );
         }
       });
 
@@ -9532,7 +9533,7 @@ module.exports = function () {
         type : 'HEAD',
         error: function() {
 
-          var html = '<div class="message">';
+          var html = '<div class="message" style="opacity:0">';
           html = html + '<img src="../../img/avatars/users/default.png" class="avatar">';
           html = html + '<div class="from">' + data.from + '</div>';
           html = html + '<div class="text">' + data.msg + '</div>';
@@ -9540,19 +9541,47 @@ module.exports = function () {
 
           $('section.messages').append( html );
           $('.messages').animate({ scrollTop: $('.messages').height()}, 1000);
+          $('img').animate({opacity: 1}, 500 );
+
+          $('.message').animate({opacity: 1}, 500 );
 
 
         },
         success: function() {
 
-          var html = '<div class="message">';
+          function formatAMPM(date) {
+            var hours = date.getHours();
+            var minutes = date.getMinutes();
+            var ampm = hours >= 12 ? 'pm' : 'am';
+            hours = hours % 12;
+            hours = hours ? hours : 12; // the hour '0' should be '12'
+            minutes = minutes < 10 ? '0'+minutes : minutes;
+            var strTime = hours + ':' + minutes + ' ' + ampm;
+            return strTime;
+          }
+
+          var currentdate = new Date();
+
+          var timestamp = currentdate.getHours() + ':' + currentdate.getMinutes();
+
+          // var datetime = 'Last Sync: ' + currentdate.getDate() + '/'
+          //       + (currentdate.getMonth()+1)  + '/'
+          //       + currentdate.getFullYear() + ' @ '
+          //       + currentdate.getHours() + ':'
+          //       + currentdate.getMinutes() + ':'
+          //       + currentdate.getSeconds();
+
+          var html = '<div class="message" style="opacity:0">';
           html = html + '<img src="../../img/avatars/users/' + data.from + '.png" class="avatar">';
-          html = html + '<div class="from">' + data.from + '</div>';
+          html = html + '<div class="from">' + data.from + ' &bull; sent at ' + formatAMPM(new Date()) + '</div>';
           html = html + '<div class="text">' + data.msg + '</div>';
           html = html + '</div>';
 
           $('section.messages').append( html );
           $('.messages').animate({ scrollTop: $('.messages').height()}, 1000);
+          $('img').animate({opacity: 1}, 500 );
+
+          $('.message').animate({opacity: 1}, 500 );
 
         }
       });
@@ -9591,7 +9620,6 @@ module.exports = function () {
 
         $('.rooms .user .user-name').html( localStorage.getItem('_id') );
         $('.rooms .user .user-handle').html( '@' + localStorage.getItem('_id') );
-
 
         $('.public-groups li').removeClass('selected');
 

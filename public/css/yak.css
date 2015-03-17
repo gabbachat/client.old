@@ -88,6 +88,7 @@ body {
 .rooms .user {
   background-color: #1f333e;
   padding: 10px;
+  height: 61px;
 }
 .rooms .user .avatar {
   margin-top: -10px;
@@ -259,4 +260,7 @@ body {
   font-weight: 500;
   font-size: 17px;
   margin-bottom: -10px;
+}
+img {
+  opacity: 0;
 }
