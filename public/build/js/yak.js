@@ -9578,7 +9578,10 @@ module.exports = function () {
           html = html + '</div>';
 
           $('section.messages').append( html );
-          $('.messages').animate({ scrollTop: $('.messages').height()}, 1000);
+
+          // $('.messages').animate({ scrollTop: $('.messages').height()}, 1000);
+          $('.messages').animate({ scrollTop: $('.messages')[0].scrollHeight}, 1000);
+
           $('img').animate({opacity: 1}, 500 );
 
           $('.message').animate({opacity: 1}, 500 );

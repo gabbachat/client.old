@@ -64,8 +64,11 @@ module.exports = function (app, session) {
       console.log('message received');
       console.log(data);
 
+      var md = require('markdown-it')();
+      var message = md.render(data.msg);
+
       io.to('yak:' + data.room).emit(data.room + ':message', {
-        msg: data.msg,
+        msg: message,
         from: data.user
       });
 

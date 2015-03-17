@@ -54,6 +54,7 @@
     "koa-static": "^1.4.9",
     "koa-stylus": "0.0.3",
     "koajs-nunjucks": "^1.0.1",
+    "markdown-it": "^4.0.1",
     "pog-router": "0.1.1",
     "socket.io": "^1.3.4",
     "stylus": "latest",

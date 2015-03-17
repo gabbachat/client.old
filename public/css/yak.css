@@ -1,6 +1,24 @@
+@import url("http://fonts.googleapis.com/css?family=Source+Code+Pro");
 html,
 body {
   background: #192126;
+}
+a {
+  color: #71bee9;
+  text-decoration: none;
+  transition: opacity 0.5s ease;
+}
+a:hover {
+  cursor: pointer;
+  opacity: 0.6;
+}
+pre {
+  background: rgba(0,0,0,0.05);
+  padding: 10px;
+  font-family: 'Source Code Pro';
+}
+code {
+  font-family: 'Source Code Pro';
 }
 .rooms {
   background-color: #192126;
