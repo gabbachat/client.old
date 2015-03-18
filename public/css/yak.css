@@ -8,10 +8,6 @@ a {
   text-decoration: none;
   transition: opacity 0.5s ease;
 }
-a:hover {
-  cursor: pointer;
-  opacity: 0.6;
-}
 pre {
   background: rgba(0,0,0,0.05);
   padding: 10px;
@@ -30,6 +26,10 @@ code {
   bottom: 0px;
   padding: 0px;
   z-index: 99;
+}
+.rooms a:hover {
+  cursor: pointer;
+  opacity: 0.6;
 }
 .rooms .active-users {
   color: #ac9bcc;
