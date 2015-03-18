@@ -52,6 +52,9 @@ code {
   display: block;
   padding: 3px 3px 3px 20px;
 }
+.rooms .active-users ul li.offline {
+  opacity: 0.3;
+}
 .rooms .active-users ul li a {
   color: #716587;
   text-decoration: none;

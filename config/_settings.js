@@ -83,7 +83,7 @@ module.exports = function (app) {
 
     secret : 'supercalifragilisticexpialidocious', // placeholder for now, will be implemented later
 
-    sockets : true // whether to enable socket.io
+    socket : false // whether to enable socket.io
 
   };
 

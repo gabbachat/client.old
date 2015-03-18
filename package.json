@@ -56,6 +56,7 @@
     "koajs-nunjucks": "^1.0.1",
     "markdown-it": "^4.0.1",
     "markdown-it-emoji": "^1.0.0",
+    "passport": "^0.2.1",
     "pog-router": "0.1.1",
     "socket.io": "^1.3.4",
     "stylus": "latest",

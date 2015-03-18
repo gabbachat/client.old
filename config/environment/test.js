@@ -17,7 +17,8 @@ module.exports = function (app) {
     img : app.address + 'img/',
     lib : app.address + 'components/',
     js : app.address + 'js/',
-    root : app.address + 'root/'
+    root : app.address + 'root/',
+    socket : app.config.protocol + 'yakk-test-server.herokuapp.com/'
   };
 
 

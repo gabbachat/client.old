@@ -9467,8 +9467,8 @@ module.exports = function () {
     init : function() {
 
       this.bind();
-      this.success();
       this.welcome();
+      this.broadcast();
 
     },
 
@@ -9487,11 +9487,9 @@ module.exports = function () {
     },
 
     // REQUEST TO JOIN A ROOM
-    join : function ( handle, room ) {
+    join : function ( data ) {
 
-      console.log('joined ' + room + ' as ' + handle);
-
-      socket.emit('room:join', { user : handle, room : room });
+      socket.emit('room:join', data);
 
     },
 
@@ -9558,7 +9556,7 @@ module.exports = function () {
 
 
         },
-        success: function() {
+        success : function() {
 
           var html = '<div class="message" style="opacity:0">';
           html = html + '<img src="../../img/avatars/users/' + data.from + '.png" class="avatar">';
@@ -9581,43 +9579,45 @@ module.exports = function () {
     },
 
     // WHEN ROOM HAS BEEN JOINED
-    success : function () {
+    welcome : function () {
 
       var Room = this;
 
-      socket.on('room:success', function( data ) {
-        localStorage.setItem('currentRoom', data.room );
-        Room.receiveMessage(data.room);
+      socket.on('room:welcome', function( data ) {
+
+        Room.receiveMessage(data.room_id);
+
+        localStorage.setItem('currentRoom', data.room_id );
 
         // SET UPPER USER AVATAR
         Room.setImage(
-          'users/' + data.handle + '.png',
+          'users/' + data.user_id + '.png',
           'users/default.png',
           $('.rooms .user .avatar')
         );
 
         // SET LOWER AVATAR
         Room.setImage(
-          'users/' + data.handle + '.png',
+          'users/' + data.user_id + '.png',
           'users/default.png',
           $('.footer .avatar')
         );
 
         // SET ROOM AVATAR
         Room.setImage(
-          'rooms/' + data.room + '.png',
+          'rooms/' + data.room_id + '.png',
           'rooms/default.png',
           $('.header .channel-avatar')
         );
 
-        $('.rooms .user .user-name').html( localStorage.getItem('_id') );
-        $('.rooms .user .user-handle').html( '@' + localStorage.getItem('_id') );
+        $('.rooms .user .user-name').html( data.name );
+        $('.rooms .user .user-handle').html( '@' + data.user_id );
 
         $('.public-groups li').removeClass('selected');
 
         $('.public-groups li').each(function() {
 
-          if ( $(this).data('name') === data.room ) {
+          if ( $(this).data('name') === data.room_id ) {
             $(this).addClass('selected');
           }
         });
@@ -9631,28 +9631,75 @@ module.exports = function () {
 
 
     // WHEN NEW USER LOGS IN
-    welcome : function () {
+    broadcast : function () {
 
       var Room = this;
 
-      socket.on('room:welcome', function( data ) {
+      socket.on('room:broadcast', function( data ) {
 
-        $('.active-users ul li').each(function() {
-          if ( $(this).data('handle') === data.handle ) $(this).remove();
-        });
+        console.log('room:broadcast');
 
-        $('.active-users ul').append('<li data-handle="' + data.handle + '">' + data.handle + '</li>');
 
       });
 
 
     },
 
+
+    updateUserList : function ( data ) {
+
+      var Room = this;
+
+      console.log('update room list');
+
+      $('.active-users ul').fadeOut()
+      .html('');
+
+      $.each(data, function() {
+
+        var current_room = localStorage.getItem('currentRoom'),
+            status = ' class="online"',
+            user = this;
+
+        if ( user.logged_in === false ) status = ' class="offline"';
+
+        // $('.active-users ul li').each(function() {
+          if ( user.room_id === localStorage.getItem('currentRoom')) {
+
+            if (!user.name) user.name = user.user_id;
+
+            var el = $('.active-users ul').append('<li' + status + ' data-user_id="' + user.user_id + '" data-room_id="' + user.room_id + '">' + user.name + '</li>').fadeIn();
+
+          }
+        // });
+
+      });
+
+
+
+
+    },
+
+    updateUserRoomList : function ( data ) {
+
+      var Room = this;
+
+      console.log('update users in ' + localStorage.getItem('currentRoom'));
+
+      $('.active-users ul li').each(function() {
+        if ( $(this).data('room_id') !== localStorage.getItem('currentRoom')) {
+          console.log( $(this).data('user_id') + ' is no longer in room');
+          $(this).addClass('offline');
+        }
+      });
+
+    },
+
     sendMessage : function ( room, msg ) {
-      socket.emit('message:send', {
+      socket.emit('message:broadcast', {
         room : room,
         msg : msg,
-        user : localStorage.getItem('_id')
+        user : localStorage.getItem('user_id')
       });
     },
 
@@ -9674,10 +9721,10 @@ module.exports = function () {
 
 module.exports = function () {
 
-  var $       = require('jquery-browserify'),
-        Browser    = require('../_modules/browser'),
-        Room    = require('../_modules/room')(),
-        Socket  = window.socket;
+  var $         = require('jquery-browserify'),
+      Browser = require('../_modules/browser'),
+      Room    = require('../_modules/room')(),
+      Socket  = window.socket;
 
   return {
 
@@ -9687,15 +9734,16 @@ module.exports = function () {
 
       User.bind();
       User.connected();
+      User.list();
+      User.listByRoom();
 
-      // Browser = require('../_modules/browser')();
+      if ( localStorage.getItem('user_id') ) {
+        console.log('already logged in.');
+        var user_id = localStorage.getItem('user_id');
 
-      if ( localStorage.getItem('_id') ) {
-
-        var handle = localStorage.getItem('_id');
-
-        User.login( handle );
+        User.login( user_id );
       } else {
+        console.log('not logged in');
         if ( Browser.segment(1) === 'group' ) location.href='/';
       }
 
@@ -9726,26 +9774,31 @@ module.exports = function () {
     // WHEN THE USER HAS CONNECTED
     connected : function () {
 
-      Socket.on('user:connected', function( user ) {
-        console.log('you are now connected as ' + user.handle);
+      Socket.on('user:connected', function( data ) {
 
-        localStorage.setItem('_id', user.handle);
+        localStorage.setItem('user_id', data.user_id);
+        data.room_id = 'main';
 
-        console.log('segment:');
-        console.log(Browser.segment(2));
+        if ( Browser.segment(2) ) data.room_id = Browser.segment(2);
 
-        if ( Browser.segment(2) ) {
-          console.log('join ' + Browser.segment(2));
-          Room.join(user.handle, Browser.segment(2) );
-        } else {
-          console.log('join main');
-          Room.join(user.handle, 'main');
-          console.log('logged in. forward to room.');
-          Browser.forward('group/main');
-        }
+        Room.join(data);
 
       });
 
+    },
+
+    // GET LIST OF ALL USERS
+    list : function () {
+      Socket.on('user:list', function( data ) {
+        Room.updateUserList(data);
+      });
+    },
+
+    // GET LIST OF ALL USERS IN CURRENT ROOM
+    listByRoom : function () {
+      Socket.on('user:listRoom', function( data ) {
+        Room.updateUserRoomList(data);
+      });
     },
 
     // REGISTER USER WITH SERVER
@@ -9753,7 +9806,17 @@ module.exports = function () {
 
       console.log('logging in as ' + user );
 
-      Socket.emit('user:login', { handle : user });
+      var room_id = 'main';
+
+      if ( Browser.segment(1) === 'group' ) {
+        room_id = Browser.segment(2);
+        Socket.emit('user:login', { user_id : user, room_id : room_id });
+      } else {
+
+        if ( localStorage.getItem('currentRoom') ) room_id = localStorage.getItem('currentRoom');
+        location.href='/group/' + room_id;
+      }
+
 
     }
 
@@ -9772,6 +9835,20 @@ module.exports = function () {
 
   return {
 
+    init : function ( server ) {
+
+      this.socket = window.socket = io.connect( server );
+
+      this.socket.on('error', function( data ) {
+        console.log('Socket Error');
+        console.error(data.err);
+      });
+
+      require('../_modules/user')().init();
+      require('../_modules/room')().init();
+
+    },
+
     config : {  // GLOBAL CONFIG SETTINGS
 
       // SET TO FALSE TO DISABLE LOGGING TO CONSOLE
@@ -9788,19 +9865,9 @@ module.exports = function () {
 
 };
 
-},{}],6:[function(require,module,exports){
+},{"../_modules/room":3,"../_modules/user":4}],6:[function(require,module,exports){
 "use strict";
 
 var $ = require("jquery-browserify"),
-    socket = window.socket = io.connect(),
-    User = window.User = require("./_modules/user")(),
-    Room = window.Room = require("./_modules/room")(),
     Yak = window.Yak = require("./_modules/yak")();
-
-// DOM READY
-$(document).on("ready", function () {
-
-      User.init();
-      Room.init();
-});
-},{"./_modules/room":3,"./_modules/user":4,"./_modules/yak":5,"jquery-browserify":1}]},{},[6])
+},{"./_modules/yak":5,"jquery-browserify":1}]},{},[6])

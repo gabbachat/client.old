@@ -11,8 +11,8 @@ module.exports = function () {
     init : function() {
 
       this.bind();
-      this.success();
       this.welcome();
+      this.broadcast();
 
     },
 
@@ -31,11 +31,9 @@ module.exports = function () {
     },
 
     // REQUEST TO JOIN A ROOM
-    join : function ( handle, room ) {
+    join : function ( data ) {
 
-      console.log('joined ' + room + ' as ' + handle);
-
-      socket.emit('room:join', { user : handle, room : room });
+      socket.emit('room:join', data);
 
     },
 
@@ -102,7 +100,7 @@ module.exports = function () {
 
 
         },
-        success: function() {
+        success : function() {
 
           var html = '<div class="message" style="opacity:0">';
           html = html + '<img src="../../img/avatars/users/' + data.from + '.png" class="avatar">';
@@ -125,43 +123,45 @@ module.exports = function () {
     },
 
     // WHEN ROOM HAS BEEN JOINED
-    success : function () {
+    welcome : function () {
 
       var Room = this;
 
-      socket.on('room:success', function( data ) {
-        localStorage.setItem('currentRoom', data.room );
-        Room.receiveMessage(data.room);
+      socket.on('room:welcome', function( data ) {
+
+        Room.receiveMessage(data.room_id);
+
+        localStorage.setItem('currentRoom', data.room_id );
 
         // SET UPPER USER AVATAR
         Room.setImage(
-          'users/' + data.handle + '.png',
+          'users/' + data.user_id + '.png',
           'users/default.png',
           $('.rooms .user .avatar')
         );
 
         // SET LOWER AVATAR
         Room.setImage(
-          'users/' + data.handle + '.png',
+          'users/' + data.user_id + '.png',
           'users/default.png',
           $('.footer .avatar')
         );
 
         // SET ROOM AVATAR
         Room.setImage(
-          'rooms/' + data.room + '.png',
+          'rooms/' + data.room_id + '.png',
           'rooms/default.png',
           $('.header .channel-avatar')
         );
 
-        $('.rooms .user .user-name').html( localStorage.getItem('_id') );
-        $('.rooms .user .user-handle').html( '@' + localStorage.getItem('_id') );
+        $('.rooms .user .user-name').html( data.name );
+        $('.rooms .user .user-handle').html( '@' + data.user_id );
 
         $('.public-groups li').removeClass('selected');
 
         $('.public-groups li').each(function() {
 
-          if ( $(this).data('name') === data.room ) {
+          if ( $(this).data('name') === data.room_id ) {
             $(this).addClass('selected');
           }
         });
@@ -175,28 +175,75 @@ module.exports = function () {
 
 
     // WHEN NEW USER LOGS IN
-    welcome : function () {
+    broadcast : function () {
 
       var Room = this;
 
-      socket.on('room:welcome', function( data ) {
+      socket.on('room:broadcast', function( data ) {
 
-        $('.active-users ul li').each(function() {
-          if ( $(this).data('handle') === data.handle ) $(this).remove();
-        });
+        console.log('room:broadcast');
 
-        $('.active-users ul').append('<li data-handle="' + data.handle + '">' + data.handle + '</li>');
 
       });
 
 
     },
 
+
+    updateUserList : function ( data ) {
+
+      var Room = this;
+
+      console.log('update room list');
+
+      $('.active-users ul').fadeOut()
+      .html('');
+
+      $.each(data, function() {
+
+        var current_room = localStorage.getItem('currentRoom'),
+            status = ' class="online"',
+            user = this;
+
+        if ( user.logged_in === false ) status = ' class="offline"';
+
+        // $('.active-users ul li').each(function() {
+          if ( user.room_id === localStorage.getItem('currentRoom')) {
+
+            if (!user.name) user.name = user.user_id;
+
+            var el = $('.active-users ul').append('<li' + status + ' data-user_id="' + user.user_id + '" data-room_id="' + user.room_id + '">' + user.name + '</li>').fadeIn();
+
+          }
+        // });
+
+      });
+
+
+
+
+    },
+
+    updateUserRoomList : function ( data ) {
+
+      var Room = this;
+
+      console.log('update users in ' + localStorage.getItem('currentRoom'));
+
+      $('.active-users ul li').each(function() {
+        if ( $(this).data('room_id') !== localStorage.getItem('currentRoom')) {
+          console.log( $(this).data('user_id') + ' is no longer in room');
+          $(this).addClass('offline');
+        }
+      });
+
+    },
+
     sendMessage : function ( room, msg ) {
-      socket.emit('message:send', {
+      socket.emit('message:broadcast', {
         room : room,
         msg : msg,
-        user : localStorage.getItem('_id')
+        user : localStorage.getItem('user_id')
       });
     },
 

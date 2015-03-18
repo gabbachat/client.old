@@ -32,7 +32,8 @@ module.exports = function (app) {
     img : app.address + 'img/',
     lib : app.address + 'components/',
     js : app.address + 'js/',
-    root : app.address + 'root/'
+    root : app.address + 'root/',
+    socket : app.config.protocol + 'localhost:1982/',
   };
 
   console.log('INFO:'.blue + ' ' + app.env.yellow + ' config loaded' );

@@ -2,10 +2,10 @@
 
 module.exports = function () {
 
-  var $       = require('jquery-browserify'),
-        Browser    = require('../_modules/browser'),
-        Room    = require('../_modules/room')(),
-        Socket  = window.socket;
+  var $         = require('jquery-browserify'),
+      Browser = require('../_modules/browser'),
+      Room    = require('../_modules/room')(),
+      Socket  = window.socket;
 
   return {
 
@@ -15,15 +15,16 @@ module.exports = function () {
 
       User.bind();
       User.connected();
+      User.list();
+      User.listByRoom();
 
-      // Browser = require('../_modules/browser')();
+      if ( localStorage.getItem('user_id') ) {
+        console.log('already logged in.');
+        var user_id = localStorage.getItem('user_id');
 
-      if ( localStorage.getItem('_id') ) {
-
-        var handle = localStorage.getItem('_id');
-
-        User.login( handle );
+        User.login( user_id );
       } else {
+        console.log('not logged in');
         if ( Browser.segment(1) === 'group' ) location.href='/';
       }
 
@@ -54,26 +55,31 @@ module.exports = function () {
     // WHEN THE USER HAS CONNECTED
     connected : function () {
 
-      Socket.on('user:connected', function( user ) {
-        console.log('you are now connected as ' + user.handle);
+      Socket.on('user:connected', function( data ) {
 
-        localStorage.setItem('_id', user.handle);
+        localStorage.setItem('user_id', data.user_id);
+        data.room_id = 'main';
 
-        console.log('segment:');
-        console.log(Browser.segment(2));
+        if ( Browser.segment(2) ) data.room_id = Browser.segment(2);
 
-        if ( Browser.segment(2) ) {
-          console.log('join ' + Browser.segment(2));
-          Room.join(user.handle, Browser.segment(2) );
-        } else {
-          console.log('join main');
-          Room.join(user.handle, 'main');
-          console.log('logged in. forward to room.');
-          Browser.forward('group/main');
-        }
+        Room.join(data);
 
       });
 
+    },
+
+    // GET LIST OF ALL USERS
+    list : function () {
+      Socket.on('user:list', function( data ) {
+        Room.updateUserList(data);
+      });
+    },
+
+    // GET LIST OF ALL USERS IN CURRENT ROOM
+    listByRoom : function () {
+      Socket.on('user:listRoom', function( data ) {
+        Room.updateUserRoomList(data);
+      });
     },
 
     // REGISTER USER WITH SERVER
@@ -81,7 +87,17 @@ module.exports = function () {
 
       console.log('logging in as ' + user );
 
-      Socket.emit('user:login', { handle : user });
+      var room_id = 'main';
+
+      if ( Browser.segment(1) === 'group' ) {
+        room_id = Browser.segment(2);
+        Socket.emit('user:login', { user_id : user, room_id : room_id });
+      } else {
+
+        if ( localStorage.getItem('currentRoom') ) room_id = localStorage.getItem('currentRoom');
+        location.href='/group/' + room_id;
+      }
+
 
     }
 

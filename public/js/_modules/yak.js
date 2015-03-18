@@ -8,6 +8,20 @@ module.exports = function () {
 
   return {
 
+    init : function ( server ) {
+
+      this.socket = window.socket = io.connect( server );
+
+      this.socket.on('error', function( data ) {
+        console.log('Socket Error');
+        console.error(data.err);
+      });
+
+      require('../_modules/user')().init();
+      require('../_modules/room')().init();
+
+    },
+
     config : {  // GLOBAL CONFIG SETTINGS
 
       // SET TO FALSE TO DISABLE LOGGING TO CONSOLE
