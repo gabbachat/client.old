@@ -9745,7 +9745,7 @@ module.exports = function () {
       } else {
         console.log('not logged in');
         if ( Browser.segment(1) === 'group' ) {
-          // location.href='/';
+          location.href='/';
           console.log('relocate to /');
         }
       }
@@ -9813,12 +9813,17 @@ module.exports = function () {
 
       if ( Browser.segment(1) === 'group' ) {
         room_id = Browser.segment(2);
+        localStorage.setItem('user_id', user.user_id);
+        localStorage.setItem('room_id', user.room_id);
         Socket.emit('user:login', { user_id : user, room_id : room_id });
       } else {
 
         if ( localStorage.getItem('currentRoom') ) room_id = localStorage.getItem('currentRoom');
+
+        localStorage.setItem('user_id', user.user_id);
+        localStorage.setItem('room_id', user.room_id);
         console.log('relocate to /group/' + room_id);
-        // location.href='/group/' + room_id;
+        location.href='/group/' + room_id;
       }
 
 
