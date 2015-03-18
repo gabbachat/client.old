@@ -9744,7 +9744,10 @@ module.exports = function () {
         User.login( user_id );
       } else {
         console.log('not logged in');
-        if ( Browser.segment(1) === 'group' ) location.href='/';
+        if ( Browser.segment(1) === 'group' ) {
+          // location.href='/';
+          console.log('relocate to /');
+        }
       }
 
     },
@@ -9814,7 +9817,8 @@ module.exports = function () {
       } else {
 
         if ( localStorage.getItem('currentRoom') ) room_id = localStorage.getItem('currentRoom');
-        location.href='/group/' + room_id;
+        console.log('relocate to /group/' + room_id);
+        // location.href='/group/' + room_id;
       }
 
 
