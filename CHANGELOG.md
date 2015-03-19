@@ -4,6 +4,7 @@
 - Sidebar now lists users in a room, and dims if a user is not logged in
 - Add Giphy integration (/giphy keyword)
 - Auto embed image urls
+- YouTube auto embeds
 
 ## 0.1.0
 - Apply updated design

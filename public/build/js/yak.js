@@ -14619,19 +14619,25 @@ module.exports = function () {
           html = '';
 
       $.each(data, function() {
-          //
-          //
-          // var avatar = gravatar.url(this.user.email, {
-          //       'size': 200,
-          //       'default': 'http://yakk.herokuapp.com/img/avatars/users/default.png'
-          //     });
-
+        if ( this.message.search('youtube.com') >= 0 || this.message.search('youtu.be') >= 0 ) {
           html = html + '<div class="message" id="message-' + this.msg_id + '" style="opacity:0">';
+          html = html + '<img src="' + this.user.avatar + '" class="avatar">';
+          html = html + '<div class="from">' + this.user.name;
+          html = html + '<span class="date">' + moment(this.createdAt).calendar() + '</span></div>';
+          var vid = this.message.split('<p><a href="').join('').split('">h');
+          vid = vid[0].split('watch?v=').join('embed/');
+          console.log(vid);
+          html = html + '<div class="text">' + this.message;
+          html = html + '<iframe width="420" height="315" src="' + vid + '" frameborder="0" allowfullscreen></iframe>' + '</div>';
+          html = html + '</div>';
+        } else {
+          html = '<div class="message" id="message-' + this.msg_id + '" style="opacity:0">';
           html = html + '<img src="' + this.user.avatar + '" class="avatar">';
           html = html + '<div class="from">' + this.user.name;
           html = html + '<span class="date">' + moment(this.createdAt).calendar() + '</span></div>';
           html = html + '<div class="text">' + this.message + '</div>';
           html = html + '</div>';
+        }
 
           last = 'message-' + this.msg_id;
 
@@ -14652,14 +14658,29 @@ module.exports = function () {
 
     renderMessage : function ( data ) {
 
-      var Room = this;
+      var html,
+          Room = this;
 
-      var html = '<div class="message" id="message-' + data.msg_id + '" style="opacity:0">';
-      html = html + '<img src="' + data.user.avatar + '" class="avatar">';
-      html = html + '<div class="from">' + data.user.name;
-      html = html + '<span class="date">' + moment(data.createdAt).calendar() + '</span></div>';
-      html = html + '<div class="text">' + data.message + '</div>';
-      html = html + '</div>';
+      if ( data.message.search('youtube.com') >= 0 || data.message.search('youtu.be') >= 0 ) {
+        html = '<div class="message" id="message-' + data.msg_id + '" style="opacity:0">';
+        html = html + '<img src="' + data.user.avatar + '" class="avatar">';
+        html = html + '<div class="from">' + data.user.name;
+        html = html + '<span class="date">' + moment(data.createdAt).calendar() + '</span></div>';
+        var vid = data.message.split('<p><a href="').join('').split('">h');
+        vid = vid[0].split('watch?v=').join('embed/');
+        console.log(vid);
+        html = html + '<div class="text">' + data.message;
+        html = html + '<iframe width="420" height="315" src="' + vid + '" frameborder="0" allowfullscreen></iframe>' + '</div>';
+        html = html + '</div>';
+      } else {
+        html = '<div class="message" id="message-' + data.msg_id + '" style="opacity:0">';
+        html = html + '<img src="' + data.user.avatar + '" class="avatar">';
+        html = html + '<div class="from">' + data.user.name;
+        html = html + '<span class="date">' + moment(data.createdAt).calendar() + '</span></div>';
+        html = html + '<div class="text">' + data.message + '</div>';
+        html = html + '</div>';
+      }
+
 
       $('section.messages').append( html );
 
