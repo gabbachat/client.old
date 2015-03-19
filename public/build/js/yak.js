@@ -14659,6 +14659,17 @@ module.exports = function () {
     },
 
 
+    notifications : function ( room ) {
+
+      var currentRoom = localStorage.getItem('room_id');
+
+      if ( currentRoom !== '' ) {
+        console.log( room + ' has a new message.');
+      }
+
+    },
+
+
     renderMessage : function ( data ) {
 
       var html,

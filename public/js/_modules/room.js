@@ -117,6 +117,23 @@ module.exports = function () {
     },
 
 
+    notifications : function ( ) {
+
+
+      socket.on('room:notify', function( data ) {
+
+        var currentRoom = localStorage.getItem('room_id');
+
+        if ( currentRoom !== '' ) {
+          console.log( data.room + ' has a new message.');
+        }
+
+      });
+
+
+    },
+
+
     renderMessage : function ( data ) {
 
       var html,
