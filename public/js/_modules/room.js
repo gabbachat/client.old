@@ -76,6 +76,9 @@ module.exports = function () {
           last,
           html = '';
 
+      console.log('all messages:');
+      console.log(data);
+
       $.each(data, function() {
         if ( this.message.search('youtube.com') >= 0 || this.message.search('youtu.be') >= 0 ) {
           html = html + '<div class="message" id="message-' + this.msg_id + '" style="opacity:0">';
@@ -89,7 +92,7 @@ module.exports = function () {
           html = html + '<iframe width="420" height="315" src="' + vid + '" frameborder="0" allowfullscreen></iframe>' + '</div>';
           html = html + '</div>';
         } else {
-          html = '<div class="message" id="message-' + this.msg_id + '" style="opacity:0">';
+          html = html + '<div class="message" id="message-' + this.msg_id + '" style="opacity:0">';
           html = html + '<img src="' + this.user.avatar + '" class="avatar">';
           html = html + '<div class="from">' + this.user.name;
           html = html + '<span class="date">' + moment(this.createdAt).calendar() + '</span></div>';
