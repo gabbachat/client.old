@@ -7,7 +7,7 @@ module.exports = function(app) {
 
   const _ = require('koa-route');
 
-  app.use(_.get('/:chat/:room', function *(term, room) {
+  app.use(_.get('/group/:room', function *(term, room) {
 
     var slogan;
 

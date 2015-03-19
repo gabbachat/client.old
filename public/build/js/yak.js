@@ -14659,13 +14659,19 @@ module.exports = function () {
     },
 
 
-    notifications : function ( room ) {
+    notifications : function ( ) {
 
-      var currentRoom = localStorage.getItem('room_id');
 
-      if ( currentRoom !== '' ) {
-        console.log( room + ' has a new message.');
-      }
+      socket.on('room:notify', function( data ) {
+
+        var currentRoom = localStorage.getItem('room_id');
+
+        if ( currentRoom !== '' ) {
+          console.log( data.room + ' has a new message.');
+        }
+
+      });
+
 
     },
 
