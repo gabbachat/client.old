@@ -270,18 +270,25 @@ body {
   padding: 22px;
   margin-bottom: 20px;
   color: #333;
-  width: 30%;
+  width: 20%;
   border: none;
-  margin-left: 10px;
 }
 .login button.go {
   list-style: none;
   border-radius: 5px;
   background: #0083cf;
-  text-align: left;
+  text-align: center;
+  margin-left: 12px;
   padding: 20px;
   margin-bottom: 20px;
-  margin-left: 10px;
   color: #fff;
+  width: 8.9%;
   border: none;
+}
+a.download {
+  color: #fff;
+  text-decoration: none;
+}
+a.download:hover {
+  opacity: 0.6;
 }
