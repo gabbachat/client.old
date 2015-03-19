@@ -241,7 +241,7 @@ pre {
 }
 html,
 body {
-  background: #93d7f2;
+  background: #192126;
 }
 .login {
   padding: 30px;
@@ -256,11 +256,23 @@ body {
   border-radius: 5px;
   background: #fff;
   text-align: left;
-  padding: 20px;
+  padding: 22px;
   margin-bottom: 20px;
   color: #333;
-  width: 50%;
+  width: 30%;
   border: none;
+}
+.login input.email {
+  list-style: none;
+  border-radius: 5px;
+  background: #fff;
+  text-align: left;
+  padding: 22px;
+  margin-bottom: 20px;
+  color: #333;
+  width: 30%;
+  border: none;
+  margin-left: 10px;
 }
 .login button.go {
   list-style: none;

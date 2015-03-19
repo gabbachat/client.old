@@ -18,11 +18,11 @@ module.exports = function () {
       User.list();
       User.listByRoom();
 
-      if ( localStorage.getItem('user_id') ) {
+      if ( localStorage.getItem('user_id') && localStorage.getItem('email') ) {
         console.log('already logged in.');
-        var user_id = localStorage.getItem('user_id');
-
-        User.login( user_id );
+        var email = localStorage.getItem('email'),
+            user_id = localStorage.getItem('user_id');
+        User.login( email, user_id );
       } else {
         console.log('not logged in');
         if ( Browser.segment(1) === 'group' ) {
@@ -39,12 +39,12 @@ module.exports = function () {
 
       // LOGIN WHEN USER PRESSER GO BUTTON
       $('button.go').click(function() {
-        User.login( $('#username').val() );
+        User.login( $('#email').val(), $('#username').val() );
       });
 
       // LOGIN WHEN USER PRESSE ENTER KEY
-      $('#username').on('keyup', function(e) {
-        if ( e.keyCode === 13 ) User.login( $('#username').val() );
+      $('#email').on('keyup', function(e) {
+        if ( e.keyCode === 13 ) User.login( $('#email').val(), $('#username').val() );
       });
 
       $('.logout').click(function() {
@@ -86,7 +86,7 @@ module.exports = function () {
     },
 
     // REGISTER USER WITH SERVER
-    login : function ( user ) {
+    login : function ( email, user ) {
 
       console.log('logging in as ' + user );
 
@@ -95,13 +95,15 @@ module.exports = function () {
       if ( Browser.segment(1) === 'group' ) {
         room_id = Browser.segment(2);
         localStorage.setItem('user_id', user);
+        localStorage.setItem('email', email);
         localStorage.setItem('room_id', room_id);
-        Socket.emit('user:login', { user_id : user, room_id : room_id });
+        Socket.emit('user:login', { email : email, user_id : user, room_id : room_id });
       } else {
 
         if ( localStorage.getItem('currentRoom') ) room_id = localStorage.getItem('currentRoom');
 
         localStorage.setItem('user_id', user);
+        localStorage.setItem('email', email);
         localStorage.setItem('room_id', room_id);
         console.log('relocate to /group/' + room_id);
         location.href='/group/' + room_id;

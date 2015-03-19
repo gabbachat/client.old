@@ -3,8 +3,10 @@
 module.exports = function () {
 
   var $       = require('jquery-browserify'),
-        Browser    = require('../_modules/browser'),
-        socket  = window.socket;
+      moment       = require('moment'),
+      Browser    = require('../_modules/browser'),
+      gravatar = require('gravatar'),
+      socket  = window.socket;
 
   return {
 
@@ -12,7 +14,8 @@ module.exports = function () {
 
       this.bind();
       this.welcome();
-      this.broadcast();
+      this.receiveAllMessage();
+      // this.broadcast();
 
     },
 
@@ -66,59 +69,65 @@ module.exports = function () {
     },
 
 
-    setMessageImage : function ( data ) {
+    renderGroupMessage : function ( data ) {
+
+
+      var Room = this,
+          last,
+          html = '';
+
+      $.each(data, function() {
+          //
+          //
+          // var avatar = gravatar.url(this.user.email, {
+          //       'size': 200,
+          //       'default': 'http://yakk.herokuapp.com/img/avatars/users/default.png'
+          //     });
+
+          html = html + '<div class="message" id="message-' + this.msg_id + '" style="opacity:0">';
+          html = html + '<img src="' + this.user.avatar + '" class="avatar">';
+          html = html + '<div class="from">' + this.user.name;
+          html = html + '<span class="date">' + moment(this.createdAt).calendar() + '</span></div>';
+          html = html + '<div class="text">' + this.message + '</div>';
+          html = html + '</div>';
+
+          last = 'message-' + this.msg_id;
+
+      });
+
+      $('section.messages').append( html );
+
+      $('.messages').animate({
+          scrollTop: $('#' + last).offset().top
+      }, 500);
+
+      $('img').animate({opacity: 1}, 500 );
+      $('.message').animate({opacity: 1}, 800 );
+
+
+    },
+
+
+    renderMessage : function ( data ) {
 
       var Room = this;
 
-      function formatAMPM(date) {
-        var hours = date.getHours();
-        var minutes = date.getMinutes();
-        var ampm = hours >= 12 ? 'pm' : 'am';
-        hours = hours % 12;
-        hours = hours ? hours : 12; // the hour '0' should be '12'
-        minutes = minutes < 10 ? '0'+minutes : minutes;
-        var strTime = hours + ':' + minutes + ' ' + ampm;
-        return strTime;
-      }
+      var html = '<div class="message" id="message-' + data.msg_id + '" style="opacity:0">';
+      html = html + '<img src="' + data.user.avatar + '" class="avatar">';
+      html = html + '<div class="from">' + data.user.name;
+      html = html + '<span class="date">' + moment(data.createdAt).calendar() + '</span></div>';
+      html = html + '<div class="text">' + data.message + '</div>';
+      html = html + '</div>';
 
-      $.ajax({
-        url : Room.avatarRoot + 'users/' + data.from + '.png',
-        type : 'HEAD',
-        error: function() {
+      $('section.messages').append( html );
 
-          var html = '<div class="message" style="opacity:0">';
-          html = html + '<img src="../../img/avatars/users/default.png" class="avatar">';
-          html = html + '<div class="from">' + data.from + ' &bull; sent at ' + formatAMPM(new Date()) + '</div>';
-          html = html + '<div class="text">' + data.msg + '</div>';
-          html = html + '</div>';
-
-          $('section.messages').append( html );
-          $('.messages').animate({ scrollTop: $('.messages').height()}, 1000);
-          $('img').animate({opacity: 1}, 500 );
-
-          $('.message').animate({opacity: 1}, 500 );
+      $('.messages').animate({
+          scrollTop: $('#message-' + data.msg_id ).offset().top + 20000
+      }, 500);
 
 
-        },
-        success : function() {
-
-          var html = '<div class="message" style="opacity:0">';
-          html = html + '<img src="../../img/avatars/users/' + data.from + '.png" class="avatar">';
-          html = html + '<div class="from">' + data.from + ' &bull; sent at ' + formatAMPM(new Date()) + '</div>';
-          html = html + '<div class="text">' + data.msg + '</div>';
-          html = html + '</div>';
-
-          $('section.messages').append( html );
-
-          // $('.messages').animate({ scrollTop: $('.messages').height()}, 1000);
-          $('.messages').animate({ scrollTop: $('.messages')[0].scrollHeight}, 1000);
-
-          $('img').animate({opacity: 1}, 500 );
-
-          $('.message').animate({opacity: 1}, 500 );
-
-        }
-      });
+      $('img').animate({opacity: 1}, 500 );
+      $('.message').animate({opacity: 1}, 800 );
 
     },
 
@@ -129,23 +138,20 @@ module.exports = function () {
 
       socket.on('room:welcome', function( data ) {
 
-        Room.receiveMessage(data.room_id);
+        Room.fetchMessages( data.user_id, data.room_id);
 
         localStorage.setItem('currentRoom', data.room_id );
 
         // SET UPPER USER AVATAR
-        Room.setImage(
-          'users/' + data.user_id + '.png',
-          'users/default.png',
-          $('.rooms .user .avatar')
-        );
+        $('.rooms .user .avatar')
+          .attr( 'src', data.avatar )
+          .animate({opacity: 1}, 500 );
 
         // SET LOWER AVATAR
-        Room.setImage(
-          'users/' + data.user_id + '.png',
-          'users/default.png',
-          $('.footer .avatar')
-        );
+
+        $('.footer .avatar')
+          .attr( 'src', data.avatar )
+          .animate({opacity: 1}, 500 );
 
         // SET ROOM AVATAR
         Room.setImage(
@@ -174,27 +180,10 @@ module.exports = function () {
     },
 
 
-    // WHEN NEW USER LOGS IN
-    broadcast : function () {
-
-      var Room = this;
-
-      socket.on('room:broadcast', function( data ) {
-
-        console.log('room:broadcast');
-
-
-      });
-
-
-    },
-
-
     updateUserList : function ( data ) {
 
       var Room = this;
 
-      console.log('update room list');
 
       $('.active-users ul').fadeOut()
       .html('');
@@ -228,11 +217,9 @@ module.exports = function () {
 
       var Room = this;
 
-      console.log('update users in ' + localStorage.getItem('currentRoom'));
 
       $('.active-users ul li').each(function() {
         if ( $(this).data('room_id') !== localStorage.getItem('currentRoom')) {
-          console.log( $(this).data('user_id') + ' is no longer in room');
           $(this).addClass('offline');
         }
       });
@@ -240,10 +227,13 @@ module.exports = function () {
     },
 
     sendMessage : function ( room, msg ) {
-      socket.emit('message:broadcast', {
-        room : room,
-        msg : msg,
-        user : localStorage.getItem('user_id')
+
+
+      socket.emit('message:send', {
+        room_id : room,
+        message : msg,
+        user_id : localStorage.getItem('user_id'),
+        email : localStorage.getItem('email')
       });
     },
 
@@ -251,9 +241,44 @@ module.exports = function () {
 
       var Room = this;
 
-      socket.on( room + ':message', function( data ) {
-        Room.setMessageImage(data);
+      socket.on( room + ':broadcast', function( data ) {
+        Room.renderMessage(data);
       });
+
+    },
+
+    receiveAllMessage : function ( room ) {
+
+      var Room = this;
+
+
+
+    },
+
+    fetchMessages : function ( user_id, room_id ) {
+
+      var Room = this;
+
+
+      socket.emit('message:fetchAll', {
+        room_id : room_id,
+        user_id : user_id
+      });
+
+      socket.on( room_id + ':fetchAll', function( data ) {
+        // Room.renderMessage(data);
+
+        // $.each(data, function() {
+            Room.renderGroupMessage(data);
+        // });
+
+      });
+
+      // WHEN A NEW MESSAGE IS RECEIVE
+      socket.on( room_id + ':broadcast', function( data ) {
+        Room.renderMessage(data);
+      });
+
     }
 
   };
