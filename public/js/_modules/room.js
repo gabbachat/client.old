@@ -2,11 +2,11 @@
 
 module.exports = function () {
 
-  var $       = require('jquery-browserify'),
-      moment       = require('moment'),
-      Browser    = require('../_modules/browser'),
-      gravatar = require('gravatar'),
-      socket  = window.socket;
+  const $       = require('jquery-browserify'),
+        moment       = require('moment'),
+        Browser    = require('../_modules/browser'),
+        gravatar = require('gravatar'),
+        socket  = window.socket;
 
   return {
 
@@ -21,7 +21,7 @@ module.exports = function () {
 
     bind : function() {
 
-      var Room = this;
+      let Room = this;
 
       // LOGIN WHEN USER PRESSE ENTER KEY
       $('#user-input').on('keyup', function(e) {
@@ -41,7 +41,7 @@ module.exports = function () {
     },
 
     fileExists : function (url) {
-        var http = new XMLHttpRequest();
+        let http = new XMLHttpRequest();
         http.open('HEAD', url, false);
         http.send();
         return http.status;
@@ -51,7 +51,7 @@ module.exports = function () {
 
     setImage : function ( img, alt, el ) {
 
-      var Room = this;
+      let Room = this;
 
       $.ajax({
         url : Room.avatarRoot + img,
@@ -72,7 +72,7 @@ module.exports = function () {
     renderGroupMessage : function ( data ) {
 
 
-      var Room = this,
+      let Room = this,
           last,
           html = '';
 
@@ -85,7 +85,7 @@ module.exports = function () {
           html = html + '<img src="' + this.user.avatar + '" class="avatar">';
           html = html + '<div class="from">' + this.user.name;
           html = html + '<span class="date">' + moment(this.createdAt).calendar() + '</span></div>';
-          var vid = this.message.split('<p><a href="').join('').split('">h');
+          let vid = this.message.split('<p><a href="').join('').split('">h');
           vid = vid[0].split('watch?v=').join('embed/');
           console.log(vid);
           html = html + '<div class="text">' + this.message;
@@ -122,7 +122,7 @@ module.exports = function () {
 
       socket.on('room:notify', function( data ) {
 
-        var currentRoom = localStorage.getItem('room_id');
+        let currentRoom = localStorage.getItem('room_id');
 
         if ( currentRoom !== '' ) {
           console.log( data.room + ' has a new message.');
@@ -136,7 +136,7 @@ module.exports = function () {
 
     renderMessage : function ( data ) {
 
-      var html,
+      let html,
           Room = this;
 
       if ( data.message.search('youtube.com') >= 0 || data.message.search('youtu.be') >= 0 ) {
@@ -144,7 +144,7 @@ module.exports = function () {
         html = html + '<img src="' + data.user.avatar + '" class="avatar">';
         html = html + '<div class="from">' + data.user.name;
         html = html + '<span class="date">' + moment(data.createdAt).calendar() + '</span></div>';
-        var vid = data.message.split('<p><a href="').join('').split('">h');
+        let vid = data.message.split('<p><a href="').join('').split('">h');
         vid = vid[0].split('watch?v=').join('embed/');
         console.log(vid);
         html = html + '<div class="text">' + data.message;
@@ -175,9 +175,12 @@ module.exports = function () {
     // WHEN ROOM HAS BEEN JOINED
     welcome : function () {
 
-      var Room = this;
+      let Room = this;
 
       socket.on('room:welcome', function( data ) {
+
+        console.log('Welcome!');
+        console.log(data);
 
         Room.fetchMessages( data.user_id, data.room_id);
 
@@ -223,7 +226,7 @@ module.exports = function () {
 
     updateUserList : function ( data ) {
 
-      var Room = this;
+      let Room = this;
 
 
       $('.active-users ul').fadeOut()
@@ -231,7 +234,7 @@ module.exports = function () {
 
       $.each(data, function() {
 
-        var current_room = localStorage.getItem('currentRoom'),
+        let current_room = localStorage.getItem('currentRoom'),
             status = ' class="online"',
             user = this;
 
@@ -242,7 +245,7 @@ module.exports = function () {
 
             if (!user.name) user.name = user.user_id;
 
-            var el = $('.active-users ul').append('<li' + status + ' data-user_id="' + user.user_id + '" data-room_id="' + user.room_id + '">' + user.name + '</li>').fadeIn();
+            let el = $('.active-users ul').append('<li' + status + ' data-user_id="' + user.user_id + '" data-room_id="' + user.room_id + '">' + user.name + '</li>').fadeIn();
 
           }
         // });
@@ -256,7 +259,7 @@ module.exports = function () {
 
     updateUserRoomList : function ( data ) {
 
-      var Room = this;
+      let Room = this;
 
 
       $('.active-users ul li').each(function() {
@@ -280,7 +283,7 @@ module.exports = function () {
 
     receiveMessage : function ( room ) {
 
-      var Room = this;
+      let Room = this;
 
       socket.on( room + ':broadcast', function( data ) {
         Room.renderMessage(data);
@@ -290,7 +293,7 @@ module.exports = function () {
 
     receiveAllMessage : function ( room ) {
 
-      var Room = this;
+      let Room = this;
 
 
 
@@ -298,7 +301,7 @@ module.exports = function () {
 
     fetchMessages : function ( user_id, room_id ) {
 
-      var Room = this;
+      let Room = this;
 
 
       socket.emit('message:fetchAll', {

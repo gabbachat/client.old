@@ -1,10 +1,10 @@
 'use strict';
 
-module.exports = function *(pog) {
+module.exports = function *(gabba) {
 
-  return yield pog.render('chat', {
-    title : pog.app.name,
-    site: pog.app
+  return yield gabba.render('chat', {
+    title : gabba.app.name,
+    site: gabba.app
   });
 
 };

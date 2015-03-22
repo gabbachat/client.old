@@ -1,10 +1,10 @@
 'use strict';
 
-module.exports = function *(pog) {
+module.exports = function *(gabba) {
 
-  return yield pog.render('index', {
-    title : pog.app.name,
-    site: pog.app
+  return yield gabba.render('index', {
+    title : gabba.app.name,
+    site: gabba.app
   });
 
 };

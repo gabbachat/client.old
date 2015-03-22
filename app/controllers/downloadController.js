@@ -1,10 +1,21 @@
-'use strict';
+extends layouts/default
 
-module.exports = function *(pog) {
+block content
 
-  return yield pog.render('download', {
-    title : pog.app.name,
-    site: pog.app
-  });
+  section.login
 
-};
+    br
+
+    h1 gabba Chat
+
+    br
+
+    input(id="username", name="username", placeholder="Jiminy Cricket").name
+    br
+    input(id="email", name="email", placeholder="jiminy@cricket.com" type="email").email
+    button.go Go
+
+    br
+    br
+
+    a(href="download/mac.zip").download Download the Mac app

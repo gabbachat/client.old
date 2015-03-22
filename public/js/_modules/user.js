@@ -2,7 +2,7 @@
 
 module.exports = function () {
 
-  var $         = require('jquery-browserify'),
+  const $         = require('jquery-browserify'),
       Browser = require('../_modules/browser'),
       Room    = require('../_modules/room')(),
       Socket  = window.socket;
@@ -11,7 +11,7 @@ module.exports = function () {
 
     init : function() {
 
-      var User = this;
+      let User = this;
 
       User.bind();
       User.connected();
@@ -20,7 +20,7 @@ module.exports = function () {
 
       if ( localStorage.getItem('user_id') && localStorage.getItem('email') ) {
         console.log('already logged in.');
-        var email = localStorage.getItem('email'),
+        let email = localStorage.getItem('email'),
             user_id = localStorage.getItem('user_id');
         User.login( email, user_id );
       } else {
@@ -35,7 +35,7 @@ module.exports = function () {
 
     bind : function() {
 
-      var User = this;
+      let User = this;
 
       // LOGIN WHEN USER PRESSER GO BUTTON
       $('button.go').click(function() {
@@ -90,7 +90,7 @@ module.exports = function () {
 
       console.log('logging in as ' + user );
 
-      var room_id = 'main';
+      let room_id = 'main';
 
       if ( Browser.segment(1) === 'group' ) {
         room_id = Browser.segment(2);

@@ -1,6 +1,6 @@
 # MODELS
 
-Pog includes a useful Model helper function that will bootstrap all of your routes & controllers needed to make it work. You will still need to create the controller and model files, but greatly simplifies the process.
+gabba includes a useful Model helper function that will bootstrap all of your routes & controllers needed to make it work. You will still need to create the controller and model files, but greatly simplifies the process.
 
 
 ## DEFAULT
@@ -8,7 +8,7 @@ Pog includes a useful Model helper function that will bootstrap all of your rout
 You can bootstrap a new model (with default settings) with one simple line of code (it's recommended to add this to app/routes.js):
 
 ```
-pog.model.load('blog')
+gabba.model.load('blog')
 ```
 
 This will automatically load  [app/controllers/blogController.js](app/controllers/blogController.js) as well as make the folling routes accessible:
@@ -25,7 +25,7 @@ This will automatically load  [app/controllers/blogController.js](app/controller
 If you are not happy with the default routes, you can easily customize them:
 
 ```
-pog.model.load('user', {
+gabba.model.load('user', {
   base : 'api/v1/',
   methods : {
     register : 'post',
@@ -82,16 +82,16 @@ The value of any url parameters will be passed to your controller in a "data" ob
 
 ```
 
-exports.other = function *(pog, data) {
+exports.other = function *(gabba, data) {
 
-  return yield pog.render('blog/read', {
+  return yield gabba.render('blog/read', {
     title : data.title,
     id: data.id
   });
 
-  return yield pog.render('blog/search', {
+  return yield gabba.render('blog/search', {
     search_term : data.term,
-    site: pog.app
+    site: gabba.app
   });
 
 };

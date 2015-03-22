@@ -5,7 +5,7 @@ rootPath = path.normalize(__dirname + '/..');
 
 module.exports = function (app) {
 
-  app.name = 'yak'; // the name of your app
+  app.name = 'gabba'; // the name of your app
 
   // APP DIRECTORIES
   app.dir = {
@@ -22,7 +22,7 @@ module.exports = function (app) {
 
   app.config = {
 
-    autoRouter : true, // whether or not to use the auto routing system (https://github.com/pogjs/router)
+    autoRouter : true, // whether or not to use the auto routing system (https://github.com/gabbajs/router)
 
     bower : true, // whether we want to use bower for front-end dependenciees
 
@@ -58,7 +58,7 @@ module.exports = function (app) {
       // check the node console for errors if you set this to false.
       browser: true,
 
-      // write errors to /log/pog.log files
+      // write errors to /log/gabba.log files
       // this needs work, doesn't log much yet
       file: true
     },
@@ -66,7 +66,7 @@ module.exports = function (app) {
     gzip : true, // whether to enable gzip compression
 
     logging : {
-      console : true // whether to allow pog to log messages to the node console
+      console : true // whether to allow gabba to log messages to the node console
     },
 
     port : 1981, // port to run the server on

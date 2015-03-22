@@ -1,6 +1,6 @@
 # MODELS
 
-Pog includes a useful model helper that will bootstrap all of the routes & controllers needed to make your models work. You will still need to create the controller and model files, but this should still greatly simplify	 the process.
+gabba includes a useful model helper that will bootstrap all of the routes & controllers needed to make your models work. You will still need to create the controller and model files, but this should still greatly simplify	 the process.
 
 
 ## DEFAULT
@@ -8,7 +8,7 @@ Pog includes a useful model helper that will bootstrap all of the routes & contr
 If you want to use the default settings, you can bootstrap a new model with one simple line of code (it's recommended to add this to app/routes.js):
 
 ```
-pog.model.load('blog')
+gabba.model.load('blog')
 ```
 
 This will automatically load  ```app/controllers/blogController.js``` as well as make the following routes accessible:
@@ -25,7 +25,7 @@ This will automatically load  ```app/controllers/blogController.js``` as well as
 If you're not happy with the default routes, you can easily customize them like so:
 
 ```
-pog.model.load('user', {
+gabba.model.load('user', {
   base : 'api/v1/',
   methods : {
     register : 'post',
@@ -82,9 +82,9 @@ app.model.load('blog', {
 The value of any url parameters will be passed to your controller in a "data" object. Here's an example of how you can access the data in your controller:
 
 ```
-exports.read = function *(pog, data) {
+exports.read = function *(gabba, data) {
 
-  return yield pog.render('blog/read', {
+  return yield gabba.render('blog/read', {
     title : data.title,
     id: data.id
   });
@@ -92,11 +92,11 @@ exports.read = function *(pog, data) {
 };
 
 
-search = function *(pog, data) {
+search = function *(gabba, data) {
 
-  return yield pog.render('blog/search', {
+  return yield gabba.render('blog/search', {
     search_term : data.term,
-    site: pog.app
+    site: gabba.app
   });
 
 };

@@ -14419,58 +14419,54 @@ return jQuery;
 
 }).call(this,typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{}],17:[function(require,module,exports){
-'use strict';
+"use strict";
 
-var $ = require('jquery-browserify');
-
+var $ = require("jquery-browserify");
 
 // GET BASIC BROWSER INFO
-exports.info = function ( which ) {
+exports.info = function (which) {
 
   var ua = navigator.userAgent.toLowerCase(),
       platform = navigator.platform.toLowerCase(),
-      UA = ua.match(/(opera|ie|firefox|chrome|version)[\s\/:]([\w\d\.]+)?.*?(safari|version[\s\/:]([\w\d\.]+)|$)/) || [null, 'unknown', 0],
-      mode = UA[1] === 'ie' && document.documentMode;
+      UA = ua.match(/(opera|ie|firefox|chrome|version)[\s\/:]([\w\d\.]+)?.*?(safari|version[\s\/:]([\w\d\.]+)|$)/) || [null, "unknown", 0],
+      mode = UA[1] === "ie" && document.documentMode;
 
-  if ( which === 'name' ) {
-      return (UA[1] === 'version') ? UA[3] : UA[1];
-  } else if ( which === 'version' ) {
-      return mode || parseFloat((UA[1] === 'opera' && UA[4]) ? UA[4] : UA[2]);
+  if (which === "name") {
+    return UA[1] === "version" ? UA[3] : UA[1];
+  } else if (which === "version") {
+    return mode || parseFloat(UA[1] === "opera" && UA[4] ? UA[4] : UA[2]);
   }
-
 };
 
 exports.domain = function () {
   return window.location.hostname;
 };
 
-exports.forward = function(url, time) {
+exports.forward = function (url, time) {
 
   // DELAY REDIRECT IF REQUESTED
-  if (typeof time !== 'undefined') {
-    setTimeout(function() {
+  if (typeof time !== "undefined") {
+    setTimeout(function () {
       if (url !== false) location.href = url;
     }, time * 1000);
 
     // OTHERWISE REDIRECT IMMEDIATELY
   } else {
-    if (url !== false)  window.location = url;
+    if (url !== false) window.location = url;
   }
-
 };
 
 // GO TO A SPECIFIC URL
-exports.go = function ( url ) {
+exports.go = function (url) {
   window.location.href = url;
 };
 
 // RETURN CURRENT PAGE NAME
 exports.page = function () {
 
-  var path = location.pathname.split('/');
+  var path = location.pathname.split("/");
 
   return path.slice(-1)[0];
-
 };
 
 // RETURN CURRENT PATH
@@ -14479,411 +14475,399 @@ exports.path = function () {
 };
 
 // QUERY URI FOR A 'GET' PARAM
-exports.query = function ( term ) {
+exports.query = function (term) {
 
   var data = false,
       loc = location.search,
-      q = loc.split('?'),
-      query = '&' + q[1],
-      parts = query.split('&');
+      q = loc.split("?"),
+      query = "&" + q[1],
+      parts = query.split("&");
 
-  $.each(parts, function(index, value) {
+  $.each(parts, function (index, value) {
 
     if (value.indexOf(term) !== -1) {
-      data = value.split('=');
+      data = value.split("=");
       data = data[1];
     }
-
   });
 
   return data;
-
 };
 
-
 // RETURN SPECIFIC URL SEGMENT
-exports.segment = function ( num ) {
+exports.segment = function (num) {
 
-  return location.pathname.split('/')[num];
-
+  return location.pathname.split("/")[num];
 };
 
 // GET CURRENT URL
 exports.url = function () {
 
-  var protocol = window.location.protocol + '//',
+  var protocol = window.location.protocol + "//",
       port = window.location.port,
       host = window.location.hostname;
 
-  return protocol + host + (port !== '' ? ':' + port : '') + '/';
-
+  return protocol + host + (port !== "" ? ":" + port : "") + "/";
 };
 
-exports.size = function ( which ) {
+exports.size = function (which) {
 
-  if ( !arguments[1] ) {
+  if (!arguments[1]) {
 
-    if ( which === 'height' || which === 'h' ) {
+    if (which === "height" || which === "h") {
       return window.outerHeight;
-    } else if ( which === 'width' || which === 'w' ) {
+    } else if (which === "width" || which === "w") {
       return window.outerWidth;
     }
-
-  } else if ( arguments[1] === 'inner' ) {
-    if ( which === 'height' || which === 'h' ) {
+  } else if (arguments[1] === "inner") {
+    if (which === "height" || which === "h") {
       return window.innerHeight;
-    } else if ( which === 'width' || which === 'w' ) {
+    } else if (which === "width" || which === "w") {
       return window.innerWidth;
     }
   }
-
 };
 
 },{"jquery-browserify":15}],18:[function(require,module,exports){
-'use strict';
+"use strict";
 
 module.exports = function () {
 
-  var $       = require('jquery-browserify'),
-      moment       = require('moment'),
-      Browser    = require('../_modules/browser'),
-      gravatar = require('gravatar'),
-      socket  = window.socket;
+  var port = window.location.port,
+      protocol = window.location.protocol + "//",
+      host = window.location.hostname;
 
   return {
 
-    init : function() {
+    init: function init(server) {
+
+      this.socket = window.socket = io.connect(server);
+
+      this.socket.on("connected", function (data) {
+        console.log("connected: ");
+        console.log(data.connected);
+      });
+
+      this.socket.on("error", function (data) {
+        console.log("Socket Error");
+        console.error(data.err);
+      });
+
+      require("../_modules/user")().init();
+      require("../_modules/room")().init();
+    },
+
+    config: { // GLOBAL CONFIG SETTINGS
+
+      // SET TO FALSE TO DISABLE LOGGING TO CONSOLE
+      debug: true,
+
+      // BASE URL'S
+      url: {
+        base: protocol + host + (port !== "" ? ":" + port : "") + "/" }
+
+    } // END CONFIG
+
+  };
+};
+//BASE URL
+
+},{"../_modules/room":19,"../_modules/user":20}],19:[function(require,module,exports){
+"use strict";
+
+module.exports = function () {
+
+  var $ = require("jquery-browserify"),
+      moment = require("moment"),
+      Browser = require("../_modules/browser"),
+      gravatar = require("gravatar"),
+      socket = window.socket;
+
+  return {
+
+    init: function init() {
 
       this.bind();
       this.welcome();
       this.receiveAllMessage();
       // this.broadcast();
-
     },
 
-    bind : function() {
+    bind: function bind() {
 
       var Room = this;
 
       // LOGIN WHEN USER PRESSE ENTER KEY
-      $('#user-input').on('keyup', function(e) {
-        if ( e.keyCode === 13 ) {
-          Room.sendMessage( localStorage.getItem('currentRoom'), $(this).val() );
-          $(this).val('');
+      $("#user-input").on("keyup", function (e) {
+        if (e.keyCode === 13) {
+          Room.sendMessage(localStorage.getItem("currentRoom"), $(this).val());
+          $(this).val("");
         }
       });
-
     },
 
     // REQUEST TO JOIN A ROOM
-    join : function ( data ) {
+    join: function join(data) {
 
-      socket.emit('room:join', data);
-
+      socket.emit("room:join", data);
     },
 
-    fileExists : function (url) {
-        var http = new XMLHttpRequest();
-        http.open('HEAD', url, false);
-        http.send();
-        return http.status;
+    fileExists: function fileExists(url) {
+      var http = new XMLHttpRequest();
+      http.open("HEAD", url, false);
+      http.send();
+      return http.status;
     },
 
-    avatarRoot : '../../img/avatars/',
+    avatarRoot: "../../img/avatars/",
 
-    setImage : function ( img, alt, el ) {
+    setImage: function setImage(img, alt, el) {
 
       var Room = this;
 
       $.ajax({
-        url : Room.avatarRoot + img,
-        type : 'HEAD',
-        error: function() {
-          el.attr( 'src', Room.avatarRoot + alt );
-          $('img').animate({opacity: 1}, 500 );
+        url: Room.avatarRoot + img,
+        type: "HEAD",
+        error: function error() {
+          el.attr("src", Room.avatarRoot + alt);
+          $("img").animate({ opacity: 1 }, 500);
         },
-        success: function() {
-          el.attr( 'src', Room.avatarRoot + img );
-          $('img').animate({opacity: 1}, 500 );
+        success: function success() {
+          el.attr("src", Room.avatarRoot + img);
+          $("img").animate({ opacity: 1 }, 500);
         }
       });
-
     },
 
-
-    renderGroupMessage : function ( data ) {
-
+    renderGroupMessage: function renderGroupMessage(data) {
 
       var Room = this,
-          last,
-          html = '';
+          last = undefined,
+          html = "";
 
-      console.log('all messages:');
+      console.log("all messages:");
       console.log(data);
 
-      $.each(data, function() {
-        if ( this.message.search('youtube.com') >= 0 || this.message.search('youtu.be') >= 0 ) {
-          html = html + '<div class="message" id="message-' + this.msg_id + '" style="opacity:0">';
-          html = html + '<img src="' + this.user.avatar + '" class="avatar">';
-          html = html + '<div class="from">' + this.user.name;
-          html = html + '<span class="date">' + moment(this.createdAt).calendar() + '</span></div>';
-          var vid = this.message.split('<p><a href="').join('').split('">h');
-          vid = vid[0].split('watch?v=').join('embed/');
+      $.each(data, function () {
+        if (this.message.search("youtube.com") >= 0 || this.message.search("youtu.be") >= 0) {
+          html = html + "<div class=\"message\" id=\"message-" + this.msg_id + "\" style=\"opacity:0\">";
+          html = html + "<img src=\"" + this.user.avatar + "\" class=\"avatar\">";
+          html = html + "<div class=\"from\">" + this.user.name;
+          html = html + "<span class=\"date\">" + moment(this.createdAt).calendar() + "</span></div>";
+          var vid = this.message.split("<p><a href=\"").join("").split("\">h");
+          vid = vid[0].split("watch?v=").join("embed/");
           console.log(vid);
-          html = html + '<div class="text">' + this.message;
-          html = html + '<iframe width="420" height="315" src="' + vid + '" frameborder="0" allowfullscreen></iframe>' + '</div>';
-          html = html + '</div>';
+          html = html + "<div class=\"text\">" + this.message;
+          html = html + "<iframe width=\"420\" height=\"315\" src=\"" + vid + "\" frameborder=\"0\" allowfullscreen></iframe>" + "</div>";
+          html = html + "</div>";
         } else {
-          html = html + '<div class="message" id="message-' + this.msg_id + '" style="opacity:0">';
-          html = html + '<img src="' + this.user.avatar + '" class="avatar">';
-          html = html + '<div class="from">' + this.user.name;
-          html = html + '<span class="date">' + moment(this.createdAt).calendar() + '</span></div>';
-          html = html + '<div class="text">' + this.message + '</div>';
-          html = html + '</div>';
+          html = html + "<div class=\"message\" id=\"message-" + this.msg_id + "\" style=\"opacity:0\">";
+          html = html + "<img src=\"" + this.user.avatar + "\" class=\"avatar\">";
+          html = html + "<div class=\"from\">" + this.user.name;
+          html = html + "<span class=\"date\">" + moment(this.createdAt).calendar() + "</span></div>";
+          html = html + "<div class=\"text\">" + this.message + "</div>";
+          html = html + "</div>";
         }
 
-          last = 'message-' + this.msg_id;
-
+        last = "message-" + this.msg_id;
       });
 
-      $('section.messages').append( html );
+      $("section.messages").append(html);
 
-      $('.messages').animate({
-          scrollTop: $('#' + last).offset().top
+      $(".messages").animate({
+        scrollTop: $("#" + last).offset().top
       }, 500);
 
-      $('img').animate({opacity: 1}, 500 );
-      $('.message').animate({opacity: 1}, 800 );
-
-
+      $("img").animate({ opacity: 1 }, 500);
+      $(".message").animate({ opacity: 1 }, 800);
     },
 
+    notifications: function notifications() {
 
-    notifications : function ( ) {
+      socket.on("room:notify", function (data) {
 
+        var currentRoom = localStorage.getItem("room_id");
 
-      socket.on('room:notify', function( data ) {
-
-        var currentRoom = localStorage.getItem('room_id');
-
-        if ( currentRoom !== '' ) {
-          console.log( data.room + ' has a new message.');
+        if (currentRoom !== "") {
+          console.log(data.room + " has a new message.");
         }
-
       });
-
-
     },
 
+    renderMessage: function renderMessage(data) {
 
-    renderMessage : function ( data ) {
-
-      var html,
+      var html = undefined,
           Room = this;
 
-      if ( data.message.search('youtube.com') >= 0 || data.message.search('youtu.be') >= 0 ) {
-        html = '<div class="message" id="message-' + data.msg_id + '" style="opacity:0">';
-        html = html + '<img src="' + data.user.avatar + '" class="avatar">';
-        html = html + '<div class="from">' + data.user.name;
-        html = html + '<span class="date">' + moment(data.createdAt).calendar() + '</span></div>';
-        var vid = data.message.split('<p><a href="').join('').split('">h');
-        vid = vid[0].split('watch?v=').join('embed/');
+      if (data.message.search("youtube.com") >= 0 || data.message.search("youtu.be") >= 0) {
+        html = "<div class=\"message\" id=\"message-" + data.msg_id + "\" style=\"opacity:0\">";
+        html = html + "<img src=\"" + data.user.avatar + "\" class=\"avatar\">";
+        html = html + "<div class=\"from\">" + data.user.name;
+        html = html + "<span class=\"date\">" + moment(data.createdAt).calendar() + "</span></div>";
+        var vid = data.message.split("<p><a href=\"").join("").split("\">h");
+        vid = vid[0].split("watch?v=").join("embed/");
         console.log(vid);
-        html = html + '<div class="text">' + data.message;
-        html = html + '<iframe width="420" height="315" src="' + vid + '" frameborder="0" allowfullscreen></iframe>' + '</div>';
-        html = html + '</div>';
+        html = html + "<div class=\"text\">" + data.message;
+        html = html + "<iframe width=\"420\" height=\"315\" src=\"" + vid + "\" frameborder=\"0\" allowfullscreen></iframe>" + "</div>";
+        html = html + "</div>";
       } else {
-        html = '<div class="message" id="message-' + data.msg_id + '" style="opacity:0">';
-        html = html + '<img src="' + data.user.avatar + '" class="avatar">';
-        html = html + '<div class="from">' + data.user.name;
-        html = html + '<span class="date">' + moment(data.createdAt).calendar() + '</span></div>';
-        html = html + '<div class="text">' + data.message + '</div>';
-        html = html + '</div>';
+        html = "<div class=\"message\" id=\"message-" + data.msg_id + "\" style=\"opacity:0\">";
+        html = html + "<img src=\"" + data.user.avatar + "\" class=\"avatar\">";
+        html = html + "<div class=\"from\">" + data.user.name;
+        html = html + "<span class=\"date\">" + moment(data.createdAt).calendar() + "</span></div>";
+        html = html + "<div class=\"text\">" + data.message + "</div>";
+        html = html + "</div>";
       }
 
+      $("section.messages").append(html);
 
-      $('section.messages').append( html );
-
-      $('.messages').animate({
-          scrollTop: $('#message-' + data.msg_id ).offset().top + 20000
+      $(".messages").animate({
+        scrollTop: $("#message-" + data.msg_id).offset().top + 20000
       }, 500);
 
-
-      $('img').animate({opacity: 1}, 500 );
-      $('.message').animate({opacity: 1}, 800 );
-
+      $("img").animate({ opacity: 1 }, 500);
+      $(".message").animate({ opacity: 1 }, 800);
     },
 
     // WHEN ROOM HAS BEEN JOINED
-    welcome : function () {
+    welcome: function welcome() {
 
       var Room = this;
 
-      socket.on('room:welcome', function( data ) {
+      socket.on("room:welcome", function (data) {
 
-        console.log('Welcome!');
+        console.log("Welcome!");
         console.log(data);
 
-        Room.fetchMessages( data.user_id, data.room_id);
+        Room.fetchMessages(data.user_id, data.room_id);
 
-        localStorage.setItem('currentRoom', data.room_id );
+        localStorage.setItem("currentRoom", data.room_id);
 
         // SET UPPER USER AVATAR
-        $('.rooms .user .avatar')
-          .attr( 'src', data.avatar )
-          .animate({opacity: 1}, 500 );
+        $(".rooms .user .avatar").attr("src", data.avatar).animate({ opacity: 1 }, 500);
 
         // SET LOWER AVATAR
 
-        $('.footer .avatar')
-          .attr( 'src', data.avatar )
-          .animate({opacity: 1}, 500 );
+        $(".footer .avatar").attr("src", data.avatar).animate({ opacity: 1 }, 500);
 
         // SET ROOM AVATAR
-        Room.setImage(
-          'rooms/' + data.room_id + '.png',
-          'rooms/default.png',
-          $('.header .channel-avatar')
-        );
+        Room.setImage("rooms/" + data.room_id + ".png", "rooms/default.png", $(".header .channel-avatar"));
 
-        $('.rooms .user .user-name').html( data.name );
-        $('.rooms .user .user-handle').html( '@' + data.user_id );
+        $(".rooms .user .user-name").html(data.name);
+        $(".rooms .user .user-handle").html("@" + data.user_id);
 
-        $('.public-groups li').removeClass('selected');
+        $(".public-groups li").removeClass("selected");
 
-        $('.public-groups li').each(function() {
+        $(".public-groups li").each(function () {
 
-          if ( $(this).data('name') === data.room_id ) {
-            $(this).addClass('selected');
+          if ($(this).data("name") === data.room_id) {
+            $(this).addClass("selected");
           }
         });
 
         // SET CURRENT ROOM
-
       });
-
-
     },
 
-
-    updateUserList : function ( data ) {
+    updateUserList: function updateUserList(data) {
 
       var Room = this;
 
+      $(".active-users ul").fadeOut().html("");
 
-      $('.active-users ul').fadeOut()
-      .html('');
+      $.each(data, function () {
 
-      $.each(data, function() {
-
-        var current_room = localStorage.getItem('currentRoom'),
-            status = ' class="online"',
+        var current_room = localStorage.getItem("currentRoom"),
+            status = " class=\"online\"",
             user = this;
 
-        if ( user.logged_in === false ) status = ' class="offline"';
+        if (user.logged_in === false) status = " class=\"offline\"";
 
         // $('.active-users ul li').each(function() {
-          if ( user.room_id === localStorage.getItem('currentRoom')) {
+        if (user.room_id === localStorage.getItem("currentRoom")) {
 
-            if (!user.name) user.name = user.user_id;
+          if (!user.name) user.name = user.user_id;
 
-            var el = $('.active-users ul').append('<li' + status + ' data-user_id="' + user.user_id + '" data-room_id="' + user.room_id + '">' + user.name + '</li>').fadeIn();
-
-          }
+          var el = $(".active-users ul").append("<li" + status + " data-user_id=\"" + user.user_id + "\" data-room_id=\"" + user.room_id + "\">" + user.name + "</li>").fadeIn();
+        }
         // });
-
       });
-
-
-
-
     },
 
-    updateUserRoomList : function ( data ) {
+    updateUserRoomList: function updateUserRoomList(data) {
 
       var Room = this;
 
-
-      $('.active-users ul li').each(function() {
-        if ( $(this).data('room_id') !== localStorage.getItem('currentRoom')) {
-          $(this).addClass('offline');
+      $(".active-users ul li").each(function () {
+        if ($(this).data("room_id") !== localStorage.getItem("currentRoom")) {
+          $(this).addClass("offline");
         }
       });
-
     },
 
-    sendMessage : function ( room, msg ) {
+    sendMessage: function sendMessage(room, msg) {
 
-
-      socket.emit('message:send', {
-        room_id : room,
-        message : msg,
-        user_id : localStorage.getItem('user_id'),
-        email : localStorage.getItem('email')
+      socket.emit("message:send", {
+        room_id: room,
+        message: msg,
+        user_id: localStorage.getItem("user_id"),
+        email: localStorage.getItem("email")
       });
     },
 
-    receiveMessage : function ( room ) {
+    receiveMessage: function receiveMessage(room) {
 
       var Room = this;
 
-      socket.on( room + ':broadcast', function( data ) {
+      socket.on(room + ":broadcast", function (data) {
         Room.renderMessage(data);
       });
-
     },
 
-    receiveAllMessage : function ( room ) {
+    receiveAllMessage: function receiveAllMessage(room) {
+
+      var Room = this;
+    },
+
+    fetchMessages: function fetchMessages(user_id, room_id) {
 
       var Room = this;
 
-
-
-    },
-
-    fetchMessages : function ( user_id, room_id ) {
-
-      var Room = this;
-
-
-      socket.emit('message:fetchAll', {
-        room_id : room_id,
-        user_id : user_id
+      socket.emit("message:fetchAll", {
+        room_id: room_id,
+        user_id: user_id
       });
 
-      socket.on( room_id + ':fetchAll', function( data ) {
+      socket.on(room_id + ":fetchAll", function (data) {
         // Room.renderMessage(data);
 
         // $.each(data, function() {
-            Room.renderGroupMessage(data);
+        Room.renderGroupMessage(data);
         // });
-
       });
 
       // WHEN A NEW MESSAGE IS RECEIVE
-      socket.on( room_id + ':broadcast', function( data ) {
+      socket.on(room_id + ":broadcast", function (data) {
         Room.renderMessage(data);
       });
-
     }
 
   };
-
 };
 
-},{"../_modules/browser":17,"gravatar":1,"jquery-browserify":15,"moment":16}],19:[function(require,module,exports){
-'use strict';
+},{"../_modules/browser":17,"gravatar":1,"jquery-browserify":15,"moment":16}],20:[function(require,module,exports){
+"use strict";
 
 module.exports = function () {
 
-  var $         = require('jquery-browserify'),
-      Browser = require('../_modules/browser'),
-      Room    = require('../_modules/room')(),
-      Socket  = window.socket;
+  var $ = require("jquery-browserify"),
+      Browser = require("../_modules/browser"),
+      Room = require("../_modules/room")(),
+      Socket = window.socket;
 
   return {
 
-    init : function() {
+    init: function init() {
 
       var User = this;
 
@@ -14892,153 +14876,100 @@ module.exports = function () {
       User.list();
       User.listByRoom();
 
-      if ( localStorage.getItem('user_id') && localStorage.getItem('email') ) {
-        console.log('already logged in.');
-        var email = localStorage.getItem('email'),
-            user_id = localStorage.getItem('user_id');
-        User.login( email, user_id );
+      if (localStorage.getItem("user_id") && localStorage.getItem("email")) {
+        console.log("already logged in.");
+        var email = localStorage.getItem("email"),
+            user_id = localStorage.getItem("user_id");
+        User.login(email, user_id);
       } else {
-        console.log('not logged in');
-        if ( Browser.segment(1) === 'group' ) {
-          location.href='/';
-          console.log('relocate to /');
+        console.log("not logged in");
+        if (Browser.segment(1) === "group") {
+          location.href = "/";
+          console.log("relocate to /");
         }
       }
-
     },
 
-    bind : function() {
+    bind: function bind() {
 
       var User = this;
 
       // LOGIN WHEN USER PRESSER GO BUTTON
-      $('button.go').click(function() {
-        User.login( $('#email').val(), $('#username').val() );
+      $("button.go").click(function () {
+        User.login($("#email").val(), $("#username").val());
       });
 
       // LOGIN WHEN USER PRESSE ENTER KEY
-      $('#email').on('keyup', function(e) {
-        if ( e.keyCode === 13 ) User.login( $('#email').val(), $('#username').val() );
+      $("#email").on("keyup", function (e) {
+        if (e.keyCode === 13) User.login($("#email").val(), $("#username").val());
       });
 
-      $('.logout').click(function() {
+      $(".logout").click(function () {
         localStorage.clear();
-        location.href='/';
+        location.href = "/";
       });
-
     },
 
-
     // WHEN THE USER HAS CONNECTED
-    connected : function () {
+    connected: function connected() {
 
-      Socket.on('user:connected', function( data ) {
+      Socket.on("user:connected", function (data) {
 
-        localStorage.setItem('user_id', data.user_id);
-        data.room_id = 'main';
+        localStorage.setItem("user_id", data.user_id);
+        data.room_id = "main";
 
-        if ( Browser.segment(2) ) data.room_id = Browser.segment(2);
+        if (Browser.segment(2)) data.room_id = Browser.segment(2);
 
         Room.join(data);
-
       });
-
     },
 
     // GET LIST OF ALL USERS
-    list : function () {
-      Socket.on('user:list', function( data ) {
+    list: function list() {
+      Socket.on("user:list", function (data) {
         Room.updateUserList(data);
       });
     },
 
     // GET LIST OF ALL USERS IN CURRENT ROOM
-    listByRoom : function () {
-      Socket.on('user:listRoom', function( data ) {
+    listByRoom: function listByRoom() {
+      Socket.on("user:listRoom", function (data) {
         Room.updateUserRoomList(data);
       });
     },
 
     // REGISTER USER WITH SERVER
-    login : function ( email, user ) {
+    login: function login(email, user) {
 
-      console.log('logging in as ' + user );
+      console.log("logging in as " + user);
 
-      var room_id = 'main';
+      var room_id = "main";
 
-      if ( Browser.segment(1) === 'group' ) {
+      if (Browser.segment(1) === "group") {
         room_id = Browser.segment(2);
-        localStorage.setItem('user_id', user);
-        localStorage.setItem('email', email);
-        localStorage.setItem('room_id', room_id);
-        Socket.emit('user:login', { email : email, user_id : user, room_id : room_id });
+        localStorage.setItem("user_id", user);
+        localStorage.setItem("email", email);
+        localStorage.setItem("room_id", room_id);
+        Socket.emit("user:login", { email: email, user_id: user, room_id: room_id });
       } else {
 
-        if ( localStorage.getItem('currentRoom') ) room_id = localStorage.getItem('currentRoom');
+        if (localStorage.getItem("currentRoom")) room_id = localStorage.getItem("currentRoom");
 
-        localStorage.setItem('user_id', user);
-        localStorage.setItem('email', email);
-        localStorage.setItem('room_id', room_id);
-        console.log('relocate to /group/' + room_id);
-        location.href='/group/' + room_id;
+        localStorage.setItem("user_id", user);
+        localStorage.setItem("email", email);
+        localStorage.setItem("room_id", room_id);
+        console.log("relocate to /group/" + room_id);
+        location.href = "/group/" + room_id;
       }
-
-
     }
 
   };
-
 };
 
-},{"../_modules/browser":17,"../_modules/room":18,"jquery-browserify":15}],20:[function(require,module,exports){
-'use strict';
-
-module.exports = function () {
-
-  var port = window.location.port,
-      protocol = window.location.protocol + '//',
-      host = window.location.hostname;
-
-  return {
-
-    init : function ( server ) {
-
-      this.socket = window.socket = io.connect( server );
-
-      this.socket.on('connected', function( data ) {
-        console.log('connected: ');
-        console.log(data.connected);
-      });
-
-      this.socket.on('error', function( data ) {
-        console.log('Socket Error');
-        console.error(data.err);
-      });
-
-      require('../_modules/user')().init();
-      require('../_modules/room')().init();
-
-    },
-
-    config : {  // GLOBAL CONFIG SETTINGS
-
-      // SET TO FALSE TO DISABLE LOGGING TO CONSOLE
-      debug : true,
-
-      // BASE URL'S
-      url : {
-          base: protocol + host + ( port !== '' ? ':' + port : '') + '/', //BASE URL
-      }
-
-    } // END CONFIG
-
-  };
-
-};
-
-},{"../_modules/room":18,"../_modules/user":19}],21:[function(require,module,exports){
+},{"../_modules/browser":17,"../_modules/room":19,"jquery-browserify":15}],21:[function(require,module,exports){
 "use strict";
 
 var $ = require("jquery-browserify"),
     gabba = window.gabba = require("./_modules/gabba")();
-},{"./_modules/gabba":20,"jquery-browserify":15}]},{},[21])
+
+},{"./_modules/gabba":18,"jquery-browserify":15}]},{},[21])

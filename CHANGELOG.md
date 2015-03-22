@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.3.0
+- Rename to Gabba
+- General code cleanup
+
 ## 0.2.0
 - Sidebar now lists users in a room, and dims if a user is not logged in
 - Add Giphy integration (/giphy keyword)

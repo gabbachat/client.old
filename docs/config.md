@@ -1,17 +1,17 @@
 # CONFIG
 
-Pog is meant to both be useable out of the box and über-configurable. Most of the important bits can be customized in ```config/_settings.js```:
+gabba is meant to both be useable out of the box and über-configurable. Most of the important bits can be customized in ```config/_settings.js```:
 
 
 ##### APP NAME
 This isn't used in many places by default, but is available throughout the app should you ever need it.
 
 ```
-app.name = 'Pog JS'; // the name of your app
+app.name = 'gabba JS'; // the name of your app
 ```
 
 ##### DIRECTORY STRUCTURE
-Pog uses these references to link to files throughout the application. If we want to change the location of anything, you are welcome to, just make sure you update it here:
+gabba uses these references to link to files throughout the application. If we want to change the location of anything, you are welcome to, just make sure you update it here:
 
 ```
 app.dir = {
@@ -28,14 +28,14 @@ app.dir = {
 
 ##### AUTO ROUTER
 
-Pog comes with an [auto-router](https://www.npmjs.com/package/pog-router) module that is enabled by default. But, if you prefer not to use it for any reason, you can disable it here.
+gabba comes with an [auto-router](https://www.npmjs.com/package/gabba-router) module that is enabled by default. But, if you prefer not to use it for any reason, you can disable it here.
 
 ```
 autoRouter: true,
 ```
 
 ##### BROWSER SYNC
-The Gulpfile that ships with Pog enables [Browser Sync](http://www.browsersync.io/) by default. If you want to disable it, or customize the port it runs on, you can do so here.
+The Gulpfile that ships with gabba enables [Browser Sync](http://www.browsersync.io/) by default. If you want to disable it, or customize the port it runs on, you can do so here.
 
 ```
 browserSync: {
@@ -45,7 +45,7 @@ browserSync: {
 ```
 
 ##### DATABASE
-Select the database driver you want to use with your models. Currently setup for RethinkDB and MongoDB (with more on the way). Set to false to disable Pog from connecting to any database. Database specific settings can be set in ```config/db```.
+Select the database driver you want to use with your models. Currently setup for RethinkDB and MongoDB (with more on the way). Set to false to disable gabba from connecting to any database. Database specific settings can be set in ```config/db```.
 
 ```
 db: 'rethink', // rethink, mongo
@@ -66,14 +66,14 @@ cors: false
 ```
 
 ##### DEBUG
-Pog may show more detailed messages in the console with this set to true.
+gabba may show more detailed messages in the console with this set to true.
 
 ```
 debug: true,
 ```
 
 ##### HTML & CSS ENGINES
-Pog supports a small handful or html templating languages and css pre-processors (with more coming soon).
+gabba supports a small handful or html templating languages and css pre-processors (with more coming soon).
 
 ###### HTML
 - Jade (default)
@@ -103,7 +103,7 @@ engines: {
 ##### ERROR REPORTING
 
 ###### browser
-By default, if Pog encounters an error it will display an error page telling you exactly what happened. You may prefer not to display errors in the browser for security reasons, set ```browser: false``` and Pog will only display a generic error message in the browser. If you disable this, you will need to check the node/iojs console for more information about errors you may encounter.
+By default, if gabba encounters an error it will display an error page telling you exactly what happened. You may prefer not to display errors in the browser for security reasons, set ```browser: false``` and gabba will only display a generic error message in the browser. If you disable this, you will need to check the node/iojs console for more information about errors you may encounter.
 
 ###### file
 When set to true, this will create error logs in the ```log``` folder. This is still a bit of a work in progress, so you may not see much showing up here yet.
@@ -124,7 +124,7 @@ gzip: true,
 ```
 
 ##### LOGGING
-Setting this to false will disable Pog from logging anything to the console.
+Setting this to false will disable gabba from logging anything to the console.
 
 ```
 logging: {
@@ -133,7 +133,7 @@ logging: {
 ```
 
 ##### PORT
-Pog runs on port 1981 be default, you can change that here.
+gabba runs on port 1981 be default, you can change that here.
 
 ```
 port: 1981,
@@ -172,7 +172,7 @@ secret: 'supercalifragilisticexpialidocious', // placeholder for now, will be im
 ```
 
 ##### SOCKET
-Pog is configured with socket.io out of the box, but is not enabled by default. Set this to true and you'll have a socket.io server up and and running.
+gabba is configured with socket.io out of the box, but is not enabled by default. Set this to true and you'll have a socket.io server up and and running.
 
 ```
 socket: {

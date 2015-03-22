@@ -6,7 +6,7 @@ var os = require('os');
 module.exports = function (app) {
 
   // global settings
-  app.domain = 'yakstaging.herokuapp.com';
+  app.domain = 'gabbastaging.herokuapp.com';
   app.env = 'production';
   app.address = app.config.protocol + app.domain + '/'; // base url
 
@@ -18,7 +18,7 @@ module.exports = function (app) {
     lib : app.address + 'components/',
     js : app.address + 'js/',
     root : app.address + 'root/',
-    socket : app.config.protocol + 'yakk-staging-server.herokuapp.com/'
+    socket : app.config.protocol + 'gabbak-staging-server.herokuapp.com/'
   };
 
 

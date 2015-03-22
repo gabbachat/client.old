@@ -2,7 +2,7 @@
 
 module.exports = function () {
 
-  var port = window.location.port,
+  const port = window.location.port,
       protocol = window.location.protocol + '//',
       host = window.location.hostname;
 
@@ -11,6 +11,11 @@ module.exports = function () {
     init : function ( server ) {
 
       this.socket = window.socket = io.connect( server );
+
+      this.socket.on('connected', function( data ) {
+        console.log('connected: ');
+        console.log(data.connected);
+      });
 
       this.socket.on('error', function( data ) {
         console.log('Socket Error');

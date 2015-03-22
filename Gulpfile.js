@@ -7,6 +7,7 @@ var babel = require('gulp-babel'),
     browserify = require('gulp-browserify'),
     browserSync = require('browser-sync'),
     colors      = require('colors'),
+    babelify      = require('babelify'),
     gulp        = require('gulp'),
     path        = require('path'),
     dir         = {
@@ -107,14 +108,17 @@ gulp.task('img', function () {
 }); // END: IMG TASK
 
 
+// babelify = require("babelify")
+
 // JAVASCRIPTS
 gulp.task('js', function() {
 
   inform('Running gulp task "JS"');
 
-  gulp.src(dir.public + 'js/yak.js')
+  gulp.src(dir.public + 'js/gabba.js')
       .pipe(babel())
       .pipe(browserify({
+        transform: ['babelify'],
         insertGlobals : false,
         debug : false
       }))

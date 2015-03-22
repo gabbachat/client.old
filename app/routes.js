@@ -7,9 +7,9 @@ module.exports = function(app) {
 
   const _ = require('koa-route');
 
-  app.use(_.get('/group/:room', function *(term, room) {
+  app.use(_.get('/group/:room', function *(room) {
 
-    var slogan;
+    var slogan = 'Greetings earthling! Welcome to the ' + room + ' room!';
 
     if ( room === 'spam' ) {
       slogan = 'Spam! Lovely spam! Lovely spam!';
@@ -19,7 +19,9 @@ module.exports = function(app) {
       slogan = 'Greetings earthling! Welcome to the ' + room + ' room!';
     }
 
-    console.log('loading room: ' + room);
+        console.log('load view for room:');
+        console.log(room);
+    // console.log('loading room: ' + room);
 
     return yield this.render('chat', {
       title : app.name,
