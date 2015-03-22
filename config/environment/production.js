@@ -18,7 +18,7 @@ module.exports = function (app) {
     lib : app.address + 'components/',
     js : app.address + 'js/',
     root : app.address + 'root/',
-    socket : app.config.protocol + 'server.gabba.io'
+    socket : app.config.protocol + 'server.gabba.io/'
   };
 
 
