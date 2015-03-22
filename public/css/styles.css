@@ -239,6 +239,12 @@ pre {
 .highlight {
   color: #d98a38;
 }
+[ngcloak],
+[ng-cloak],
+.ng-cloak {
+  display: none;
+  transition: all 0.5s ease;
+}
 html,
 body {
   background: #192126;

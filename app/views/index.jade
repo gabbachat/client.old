@@ -2,17 +2,17 @@ extends layouts/default
 
 block content
 
-  section.login
+  section.login(ng-controller='login')
     
     br
       
-    h1 gabba Chat
+    h1.ng-cloak {{title}}
     
     br
       
-    input(id="username", name="username", placeholder="Jiminy Cricket").name
+    input(id="username", name="username", placeholder="{{name}}", ng-cloak).name
     br
-    input(id="email", name="email", placeholder="jiminy@cricket.com" type="email").email
+    input(id="email", name="email", placeholder="{{email}}" type="email", ng-cloak).email
     button.go Go
     
     br
