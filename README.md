@@ -4,4 +4,4 @@
 
 very chat! such beta!
 
-demo: [gabbak.herokuapp.com](http://gabbak.herokuapp.com)
+demo: [chat.gabba.io](http://chat.gabba.io)
