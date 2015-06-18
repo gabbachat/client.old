@@ -58,6 +58,8 @@ module.exports = function () {
     // WHEN THE USER HAS CONNECTED
     connected : function () {
 
+      let User = this;
+      
       Socket.on('user:connected', function( data ) {
 
         localStorage.setItem('user_id', data.user_id);
