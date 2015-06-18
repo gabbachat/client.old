@@ -1,6 +1,7 @@
 .DS_Store
 .nodemonignore
 .sass-cache/
+build/
 node_modules/
 public/lib
 *.log
