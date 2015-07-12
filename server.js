@@ -21,7 +21,7 @@ require(__dirname + '/config/server')(app, gabba); // VIEW SETTINGS
 app.gabba = gabba; // ADD gabba OBJECT TO APP
 
 require('./app/routes')(app); // LOAD CUSTOM ROUTES
-app.use(require('pog-router')); // INCLUDE AUTO ROUTER
+// app.use(require('pog-router')); // INCLUDE AUTO ROUTER
 
 // START THE APP BY LISTENING ON <PORT>
 app.server = app.listen( process.env.PORT || app.config.port, function( err ) {

@@ -1,23 +1,45 @@
-@import url('http://fonts.googleapis.com/css?family=Source+Code+Pro');
-
 html, body
   background #192126
+  color #fff
+  font-family 'Helvetica'
+  font-size 14px
+  padding 10%
 
-a
-  color #71bee9
-  text-decoration none
-  transition opacity 0.5s ease
+*
+  font-weight 100
 
-pre
-  background rgba(0,0,0,0.05)
+h1
+  margin 0
+  padding 0
+
+// ELEMENTS
+#login-button
+  background #007ccc
+  color #fff
   padding 10px
-  font-family: 'Source Code Pro';
+  // margin 0px 0px
 
-code
-  font-family: 'Source Code Pro';
+#register-button
+  color #fff
+  padding 10px
+  margin 0px 0px 0px 5px
+  text-transform none
 
-@import '_modules/rooms';
-@import '_modules/content';
+input
+  background #fff
+  border 0
+  border-radius 3px
+  font-size 14px
+  margin-right 5px
+  padding 20px
 
-img
-  opacity 0
+login
+  h1
+    margin-bottom: 10px;
+
+  login-actions
+    display: block;
+
+  input
+    display: block;
+    margin-bottom: 10px;

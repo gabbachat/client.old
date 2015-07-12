@@ -27,10 +27,10 @@ module.exports = function (app) {
   // directories
   app.public = {
     build : app.address + 'build/',
-    components : app.address + 'components/',
+    components : app.address + 'bower_components/',
     css : app.address + 'css/',
     img : app.address + 'img/',
-    lib : app.address + 'components/',
+    lib : app.address + 'bower_components/',
     js : app.address + 'js/',
     root : app.address + 'root/',
     socket : app.config.protocol + app.domain + ':1982/'

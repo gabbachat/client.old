@@ -15,7 +15,7 @@ module.exports = function (app) {
     build : app.address + 'build/',
     css : app.address + 'css/',
     img : app.address + 'img/',
-    lib : app.address + 'components/',
+    lib : app.address + 'bower_components/',
     js : app.address + 'js/',
     root : app.address + 'root/',
     socket : app.config.protocol + 'server.gabba.io/'

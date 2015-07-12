@@ -3,8 +3,8 @@
 module.exports = function () {
 
   const port = window.location.port,
-      protocol = window.location.protocol + '//',
-      host = window.location.hostname;
+        protocol = window.location.protocol + '//',
+        host = window.location.hostname;
 
   return {
 

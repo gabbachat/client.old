@@ -6,11 +6,7 @@ head
   
   title Gabba
 
-  link(rel="shortcut icon", type="image/png", href="#{site.address}favicon.png")
-  link(rel='stylesheet', href='#{site.public.css}styles.css')
+  script(src='js/lib/systemjs/system.js')
+  script(src='bower_components/webcomponentsjs/webcomponents-lite.js')
 
-  
-  //- Allows you to pass an array of page specific styles to load
-  if locals.css
-    each stylesheet in css
-      link(rel='stylesheet', src='#{site.public.css}#{stylesheet}')
+  link(rel='stylesheet' href='css/gabba.css')

@@ -1,7 +1,4 @@
-script(src='#{site.public.js}lib/systemjs/system.js')
-script(src="#{site.public.socket}socket.io/socket.io.js")
-script(src='#{site.public.build}js/gabba.js')
-
-script.
-	System.transpiler = 'babel';
-	gabba.init('#{site.public.socket}')
+link(rel='import' href='bower_components/polymer/polymer.html')    
+link(rel='import' href='components/elements.html')
+link(rel='import' href='components/login.html')
+//- script(src='#{site.public.socket}socket.io/socket.io.js')

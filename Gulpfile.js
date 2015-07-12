@@ -38,7 +38,7 @@ gulp.task('start', ['default']);
 // DEFAULT TASK, HANDLES ALL BASIC SERVER STUFF
 gulp.task('default', ['css', 'img', 'js', 'browserSync'], function () {
   gulp.watch(dir.less, ['css'] );
-  gulp.watch(dir.js, ['js', 'jsChange'] );
+  gulp.watch(dir.js, ['js'] );
   gulp.watch(dir.img, ['img']);
 });
 
@@ -49,15 +49,15 @@ gulp.task('jsChange', function() {
 // BROWSER SYNC - http://www.browsersync.io/docs/gulp/
 gulp.task('browserSync', ['nodemon'], function() {
 
-  inform('Running gulp task "browserStack"');
-
-  browserSync.init(null, {
-    proxy: 'http://localhost:' + app.config.port,
-    files: ['public/**/*.*'],
-    open: false,
-    port: app.config.browserSync.port,
-    notify: false
-  });
+  // inform('Running gulp task "browserSync"');
+  //
+  // browserSync.init(null, {
+  //   proxy: 'http://localhost:' + app.config.port,
+  //   files: ['public/**/*.*'],
+  //   open: false,
+  //   port: app.config.browserSync.port,
+  //   notify: false
+  // });
 
 });
 
@@ -67,25 +67,25 @@ gulp.task('css', function () {
 
   inform('Running gulp task "CSS"');
 
-  return gulp.src([
-    dir.public + 'css/*.' + app.config.engines.css.extension,
-    dir.css
-  ])
-  .pipe($.autoprefixer({browsers: [
-    'ie >= 10',
-    'ie_mob >= 10',
-    'ff >= 30',
-    'chrome >= 34',
-    'safari >= 7',
-    'opera >= 23',
-    'ios >= 7',
-    'android >= 4.4',
-    'bb >= 10'
-  ]}))
-  // Concatenate and minify styles
-  .pipe($.if('*.css', $.csso()))
-  .pipe(gulp.dest(dir.build + 'css'))
-  .pipe($.size({title: 'css'}));
+  // return gulp.src([
+  //   dir.public + 'css/*.' + app.config.engines.css.extension,
+  //   dir.css
+  // ])
+  // .pipe($.autoprefixer({browsers: [
+  //   'ie >= 10',
+  //   'ie_mob >= 10',
+  //   'ff >= 30',
+  //   'chrome >= 34',
+  //   'safari >= 7',
+  //   'opera >= 23',
+  //   'ios >= 7',
+  //   'android >= 4.4',
+  //   'bb >= 10'
+  // ]}))
+  // // Concatenate and minify styles
+  // .pipe($.if('*.css', $.csso()))
+  // .pipe(gulp.dest(dir.build + 'css'))
+  // .pipe($.size({title: 'css'}));
 
 }); // END: CSS TASK
 
@@ -97,13 +97,13 @@ gulp.task('img', function () {
 
   inform('Running gulp task "IMG"');
 
-  return gulp.src(dir.img)
-    .pipe($.cache($.imagemin({
-      progressive: true,
-      interlaced: true
-    })))
-    .pipe(gulp.dest(dir.build + 'img'))
-    .pipe($.size({title: 'images'}));
+  // return gulp.src(dir.img)
+  //   .pipe($.cache($.imagemin({
+  //     progressive: true,
+  //     interlaced: true
+  //   })))
+  //   .pipe(gulp.dest(dir.build + 'img'))
+  //   .pipe($.size({title: 'images'}));
 
 }); // END: IMG TASK
 
@@ -115,14 +115,14 @@ gulp.task('js', function() {
 
   inform('Running gulp task "JS"');
 
-  gulp.src(dir.public + 'js/gabba.js')
-      .pipe(babel())
-      .pipe(browserify({
-        transform: ['babelify'],
-        insertGlobals : false,
-        debug : false
-      }))
-      .pipe(gulp.dest(dir.build + 'js'));
+  // gulp.src(dir.public + 'js/gabba.js')
+  //     .pipe(babel())
+  //     .pipe(browserify({
+  //       transform: ['babelify'],
+  //       insertGlobals : false,
+  //       debug : false
+  //     }))
+  //     .pipe(gulp.dest(dir.build + 'js'));
 
 }); // END: JS TASK
 
@@ -136,7 +136,7 @@ gulp.task('nodemon', function (cb) {
   var called = false;
   return $.nodemon({
     script: 'server.js',
-    ext: 'js, jade, hbs, nj, styl, sass, less, css',
+    ext: 'js, jade, styl, css',
     ignore: ['README.md', 'node_modules', '.DS_Store'],
     'execMap': {
       'js': 'iojs'

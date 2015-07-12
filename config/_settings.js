@@ -10,7 +10,7 @@ module.exports = function (app) {
   // APP DIRECTORIES
   app.dir = {
     controllers : app.base + '/app/controllers/',
-    components : app.base + '/public/components/',
+    components : app.base + '/public/bower_components/',
     css : app.base + '/public/css/',
     img : app.base + '/public/img/',
     js : app.base + '/public/js/',
@@ -63,7 +63,7 @@ module.exports = function (app) {
       file: true
     },
 
-    gzip : true, // whether to enable gzip compression
+    gzip : false, // whether to enable gzip compression
 
     logging : {
       console : true // whether to allow gabba to log messages to the node console

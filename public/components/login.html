@@ -1,0 +1,28 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+
+<dom-module id="login-container">
+
+  <!-- scoped CSS for this element -->
+  <style>
+
+  </style>
+
+  <template>
+
+    <input id="username" name="username" placeholder="Jiminy Cricket" class="name">
+    <input id="email" name="email" placeholder="jiminy@cricket.com" type="email") class="email">
+
+    <login-actions>
+      <paper-button id="login-button">Login</paper-button>
+      <paper-button id="register-button">Register</paper-button>
+    </login-actions>
+
+  </template>
+
+  <script>
+    Polymer({
+      is: "login-container",
+    });
+  </script>
+
+</dom-module>
