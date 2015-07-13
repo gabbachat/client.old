@@ -1,9 +1,0 @@
-.DS_Store
-.nodemonignore
-.sass-cache/
-node_modules/
-public/_dist
-public/lib
-*.log
-*.sublime-project
-*.sublime-workspace

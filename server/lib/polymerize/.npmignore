@@ -1,0 +1,8 @@
+.DS_Store
+/tmp
+/test
+npm-debug.log
+/bower_components
+/sandbox
+/coverage.html
+/lib-cov

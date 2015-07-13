@@ -1,0 +1,59 @@
+<dom-module id="login-form"><template><status></status><iron-collapse id="login"><input id="username" name="username" placeholder="Jiminy Cricket" class="name"/><input id="email" name="email" placeholder="jiminy@cricket.com" type="email" class="email"/><login-actions><paper-button id="login-button" class="primary">Login</paper-button><paper-button id="show-register-button" class="secondary">Register</paper-button></login-actions></iron-collapse><iron-collapse id="register"><input placeholder="Name"/><input placeholder="Email"/><input placeholder="Password"/><login-actions><paper-button id="register-button" class="primary">Register</paper-button><paper-button id="cancel-register-button" class="aside">Cancel</paper-button></login-actions></iron-collapse></template></dom-module><style>input {
+  display: block;
+  margin-bottom: 10px;
+  width: 100%;
+}
+
+h1 { margin-bottom: 10px; }        
+
+login-actions {
+  display: block;
+  margin-top: 20px;
+}
+
+</style><script>Polymer({
+
+  is: "login-form",
+  
+  listeners: {
+    'login-button.tap': 'login',
+    'show-register-button.tap': 'showRegister',
+    'register-button.tap': 'register',
+    'cancel-register-button.tap': 'cancelRegister'
+  },
+  
+  //- LOCKER & LOADED
+  ready : function() {
+    Gabba.Login.init();
+    this.$.login.toggle(); // show login form
+  },
+  
+  //- PROCESS LOGIN
+  login : function() {
+  
+    var u = this.$.username.value,
+        e = this.$.email.value;
+    
+    //- SEND LOGIN TO SOCKET
+    window.socket.emit('user:login', { email : e, user_id : u, room_id : 'general' });
+
+  },
+  
+  //- PROCESS REGISTRATION
+  register : function() {
+    console.info('register user');
+  },
+  
+  //- SHOW REGISTER FORM
+  showRegister : function() {
+    this.$.register.toggle();
+    this.$.login.toggle();
+  },
+  
+  //- HIDE REGISTER FORM
+  cancelRegister : function() {      
+    this.$.register.toggle();
+    this.$.login.toggle();
+  }
+
+});</script>
