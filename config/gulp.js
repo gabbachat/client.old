@@ -20,7 +20,7 @@ module.exports = {
       dest : './client/_dist/img/'
     },
     js : {
-      src : './client/js/gabba.js',
+      src : './client/app/gabba.js',
       dest : './client/_dist/js'
     }
   },
@@ -34,7 +34,7 @@ module.exports = {
     css : './client/_dist/css/gabba.css',
     jade : './server/views/**/*.jade',
     img : './client/img/**/*',
-    js : './client/js/**/*',
+    js : './client/app/**/*',
     stylus : './client/css/**/*.styl'
   }
 }

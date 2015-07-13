@@ -28,7 +28,7 @@ module.exports = function (app) {
     components : app.base + '/client/components/',
     css : app.base + '/client/css/',
     img : app.base + '/client/img/',
-    js : app.base + '/client/js/',
+    js : app.base + '/client/app/',
     models : app.base + '/server/models/',
     public : app.base + '/client/',
     root : app.base,
