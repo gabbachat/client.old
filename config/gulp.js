@@ -11,8 +11,8 @@ module.exports = {
   },
   build : {
     css : {
-      stylus : './client/assets/css/**/*.styl',
-      src : './client/assets/css/gabba.styl',
+      stylus : './client/css/**/*.styl',
+      src : './client/css/gabba.styl',
       dest : './client/_dist/css'
     },
     img : {

@@ -6,7 +6,7 @@ const koa      = require('koa'),
 
 require('colors'); // PRETTY CONSOLE LOGGING
 require('fs'); // FILE SYSTEM
-require(__dirname + '/_config/pog')(app); // MAIN APP SETTINGS
+require(__dirname + '/config/pog')(app); // MAIN APP SETTINGS
 process.env.NODE_ENV = process.env.NODE_ENV || 'development'; // SET DEFAULT ENVIRONMENT
 
 let pog = app.pog = require('./server/lib/pog')(app); // INCLUDE POG LIB
@@ -14,8 +14,8 @@ app.log = pog.log;
 pog.inform(app, 'start'); // START UP MESSAGE
 
 // REQUIRED SETTINGS & CONFIG FILES
-require(__dirname + '/_config/environment/' + process.env.NODE_ENV)(app); // ENVIRONMENT SPECIFIC SETTINGS
-require(__dirname + '/_config/server')(app, pog); // VIEW SETTINGS
+require(__dirname + '/config/environment/' + process.env.NODE_ENV)(app); // ENVIRONMENT SPECIFIC SETTINGS
+require(__dirname + '/config/server')(app, pog); // VIEW SETTINGS
 
 require('./server/routes')(app); // LOAD ROUTER
 

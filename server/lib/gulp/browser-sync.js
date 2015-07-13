@@ -1,5 +1,5 @@
 var $       = require('gulp-load-plugins')(),
-    config  = require('../../../_config/gulp'),
+    config  = require('../../../config/gulp'),
     gulp    = require('gulp'),
     inform  = require('./inform');
 
