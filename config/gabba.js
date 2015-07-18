@@ -32,7 +32,7 @@ module.exports = function (app) {
     models : app.base + '/server/models/',
     public : app.base + '/client/',
     root : app.base,
-    views : app.base + '/server/views/'
+    views : app.base + '/client/views/'
   };
 
   app.config = {

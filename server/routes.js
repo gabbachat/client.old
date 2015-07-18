@@ -2,6 +2,14 @@
 
 module.exports = function(app) {
 
+  const CookieDough = require('cookie-dough'),
+        socket = require('socket.io-client')(app.public.socket);
+
+  socket.on('connected', function( data ) {
+    console.log('socket connected: ');
+    console.log(data.connected);
+  });
+
   // app.router.get('/auth/twitter', function *() {
   //     this.body = 'twitter';
   // });
@@ -26,13 +34,77 @@ module.exports = function(app) {
 
   app.router.get('/chat', function *() {
 
-    console.log('SESSION STATUS');
-    console.log(this.session);
+    // IF WE HAVE A VALID SESSION
+    if ( this.session.passport.id ) {
 
-    this.render('chat', {
-      title : app.name,
-      site: app
-    });
+      let passport = this.session.passport,
+          render = this.render;
+
+      // console.log(this.session.passport);
+
+      // socket.emit('user:login', passport);
+      //
+      // // NEW USER, SHOW SIGN UP OPTIONS
+      // socket.on('user:register', function( data ) {
+      //   console.log('USER REGISTRATION STATUS:');
+      //   console.log(data);
+      //
+      //   // DISPLAY APPLICATION
+      //   render('register', {
+      //     title : app.name,
+      //     site: app,
+      //     passport: passport
+      //   });
+      //
+      // });
+      //
+      //
+      // // EXISTING USER, DISPLAY APPLICATION
+      // socket.on('user:login', function( data ) {
+      //   console.log('USER LOGIN STATUS:');
+      //   console.log(data);
+      //
+      //   // DISPLAY APPLICATION
+      //   render('chat', {
+      //     title : app.name,
+      //     site: app,
+      //     passport: passport
+      //   });
+      //
+      // });
+
+      if ( passport._json.profile_image_url ) {
+        passport.avatar = passport._json.profile_image_url.split('_normal').join('');
+      }
+
+      if ( passport._json.avatar_url ) {
+        passport.avatar = passport._json.avatar_url;
+      }
+
+      // let cookie = require('cookie-dough')();
+
+      // var cookie = new CookieDough(this.req);
+
+      this.cookies.set('tester', 'blah blah blah');
+
+      // DISPLAY APPLICATION
+      this.render('register', {
+        title : app.name,
+        site: app,
+        passport: passport
+      });
+
+
+    // IF NOT, LOGIN
+    } else {
+      console.log('NOT LOGGED IN');
+      console.log(this.session);
+      this.render('login', {
+        title : app.name,
+        site: app
+      });
+    }
+
 
   });
 

@@ -1,0 +1,8 @@
+extends layouts/default
+
+block content
+  h1 Hi #{passport.displayName}
+  
+  img(src="#{passport.avatar}")
+
+  h4 You are now logged in with #{passport.provider}

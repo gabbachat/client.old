@@ -1,14 +1,16 @@
 module.exports = function( app ) {
 
-  var passport = require('koa-passport');
+  const passport = require('koa-passport');
 
-  passport.serializeUser(function(user, done) {
+  passport.serializeUser(function(data, done) {
+
     console.log('serialize');
 
-    app.session.passport = 'twitter';
-    app.session.user = user;
+    app.session.provider = data.provider;
+    app.session.passport = data;
 
-    done(null, user);
+    done(null, data);
+
   });
 
   passport.deserializeUser(function(user, done) {

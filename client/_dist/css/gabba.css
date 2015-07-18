@@ -201,7 +201,9 @@ html {
   padding: 0;
 }
 body {
-  font-size: 14px;
+  background: rgba(0,0,0,0.05);
+  padding: 5% 20%;
+  font-size: 'Raleway', 'Helvetica Neue', 'Arial', sans-serif;
   font-family: 'Raleway', 'Helvetica Neue', 'Arial', sans-serif;
   line-height: 1.5em;
 }
@@ -244,10 +246,6 @@ pre {
 .highlight {
   color: #d98a38;
 }
-body {
-  background: rgba(0,0,0,0.02);
-  padding: 20%;
-}
 paper-button {
   color: #fff;
   padding: 5px 10px;
@@ -273,6 +271,19 @@ paper-button.aside {
 paper-button.aside:hover {
   background-color: rgba(0,0,0,0.2);
 }
+a,
+a:visited {
+  color: #852bcc;
+  text-decoration: none;
+}
+a:visited,
+a:visited:visited {
+  opacity: 0.8;
+}
+a:hover,
+a:visited:hover {
+  color: #3473c6;
+}
 input {
   background: #fff;
   border: 0;
@@ -280,4 +291,26 @@ input {
   font-size: 14px;
   margin-right: 5px;
   padding: 20px;
+  border-style: solid;
+  border-width: 2px;
+  border-color: #ccc;
+}
+label {
+  font-family: 'Helvetica Neue', 'Arial', sans-serif;
+  font-weight: bold;
+  font-size: 15px;
+}
+input.ok {
+  border-color: #42c23b;
+}
+.register .optional {
+  margin-top: 20px;
+}
+.register .required {
+  clear: both;
+}
+.register .avatar {
+  float: left;
+  margin: 0px 10px 20px 0px;
+  width: 100px;
 }

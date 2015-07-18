@@ -2,11 +2,13 @@
 
 module.exports = function(app) {
 
-  const session = require('koa-generic-session'),
-        redisStore = require('koa-redis'),
-        bodyParser = require('koa-bodyparser'),
-        Router = require('koa-router')(),
-        passport = require('koa-passport');
+  const bodyParser    = require('koa-bodyparser'),
+        CookieDough   = require('cookie-dough'),
+        cookieParser  = require('cookie-parser'),
+        redisStore    = require('koa-redis'),
+        Router        = require('koa-router')(),
+        passport      = require('koa-passport'),
+        session       = require('koa-generic-session');
 
   // >  - - - - - - - - <
   // >  CSS PROCESSOR   <
@@ -65,7 +67,8 @@ module.exports = function(app) {
     yield next;
   });
 
-  // app.use(bodyParser());
+  // COOKIES
+  // app.use(cookieParser());
 
   // ENABLE PASSPORT
   app.use(passport.initialize());

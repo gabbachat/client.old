@@ -21,5 +21,8 @@
   "strict": false,
   "trailing": true,
   "undef": true,
-  "unused": false
+  "unused": false,
+  "predef": [
+    "Polymer"
+  ]
 }

@@ -1,0 +1,22 @@
+extends layouts/default
+
+block content
+  
+  section.register
+    img(src="#{passport.avatar}").avatar
+    h1 Hi #{passport.displayName}
+    h3 We've pulled in your information from #{passport.provider}, just select a username and you're good to go!
+    
+    section.required
+      label username
+      input#username(placeholder='mr.ramone', value='#{passport.username}').ok
+    
+    section.optional
+      h2 Edit Your Info
+      input(placeholder='Name', value='#{passport.displayName}')
+      input(placeholder='Email')
+      
+      label Create a password (optional)
+      input(placeholder='Password')
+
+  //- register-form
