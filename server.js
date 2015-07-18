@@ -6,24 +6,25 @@ const koa      = require('koa'),
 
 require('colors'); // PRETTY CONSOLE LOGGING
 require('fs'); // FILE SYSTEM
-require(__dirname + '/config/pog')(app); // MAIN APP SETTINGS
+require(__dirname + '/config/gabba')(app); // MAIN APP SETTINGS
 process.env.NODE_ENV = process.env.NODE_ENV || 'development'; // SET DEFAULT ENVIRONMENT
 
-let pog = app.pog = require('./server/lib/pog')(app); // INCLUDE POG LIB
-app.log = pog.log;
-pog.inform(app, 'start'); // START UP MESSAGE
+let gabba = app.gabba = require('./server/lib/gabba')(app); // INCLUDE gabba LIB
+app.log = gabba.log;
+gabba.inform(app, 'start'); // START UP MESSAGE
 
 // REQUIRED SETTINGS & CONFIG FILES
 require(__dirname + '/config/environment/' + process.env.NODE_ENV)(app); // ENVIRONMENT SPECIFIC SETTINGS
-require(__dirname + '/config/server')(app, pog); // VIEW SETTINGS
+require(__dirname + '/config/server')(app, gabba); // VIEW SETTINGS
 
-require('./server/routes')(app); // LOAD ROUTER
+require('./server/routes')(app); // LOAD ROUTES
+require('./server/passport')(app); // PASSPORT
 
 // START THE APP BY LISTENING ON <PORT>
 app.server = app.listen( process.env.PORT || app.config.port, function( err ) {
   if ( !err ) { // IF THERE'S NO ERRORS
-    pog.inform(app, 'done');
+    gabba.inform(app, 'done');
   } else { // IF SOMETHING WENT WRONG!
-    pog.inform(app, 'error', err);
+    gabba.inform(app, 'error', err);
   }
 });

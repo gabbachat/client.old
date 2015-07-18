@@ -8,10 +8,16 @@ module.exports = function () {
 
     init : function ( server ) {
 
+      console.log('login.init');
+
+      this.socket = window.socket = io.connect( server );
+
+      this.socket.emit('user:login', { user: 'jesseweed' });
+
       // WHEN USER CONNECTS
-      window.socket.on('user:connected', function( data ) {
+      this.socket.on('user:connected', function( data ) {
         console.log('user connected:');
-        console.log(data)
+        console.log(data);
       });
 
     },

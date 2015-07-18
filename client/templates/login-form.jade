@@ -4,11 +4,14 @@ dom-module#login-form
       status
         
       iron-collapse#login
-        input#username.name(name='username', placeholder='Jiminy Cricket')
-        input#email.email(name='email', placeholder='jiminy@cricket.com', type='email')
+        //- input#username.name(name='username', placeholder='Jiminy Cricket')
+        //- input#email.email(name='email', placeholder='jiminy@cricket.com', type='email')
         login-actions
-          paper-button#login-button.primary Login
-          paper-button#show-register-button.secondary Register
+          a(href="/auth/twitter")
+            paper-button#login-button.primary Login with Twitter
+          a(href="/auth/github")
+            paper-button#login-button.primary Login with Github
+          //- paper-button#show-register-button.secondary Register
         
       iron-collapse#register
         input(placeholder='Name')
@@ -18,6 +21,7 @@ dom-module#login-form
         login-actions
           paper-button#register-button.primary Register
           paper-button#cancel-register-button.aside Cancel
+          
     
     
 //- CSS
@@ -46,25 +50,38 @@ script.
     
     listeners: {
       'login-button.tap': 'login',
-      'show-register-button.tap': 'showRegister',
+      //- 'show-register-button.tap': 'showRegister',
       'register-button.tap': 'register',
       'cancel-register-button.tap': 'cancelRegister'
     },
     
     //- LOCKER & LOADED
     ready : function() {
-      Gabba.Login.init();
+    
+      var Socket  = window.socket;
+      //- Gabba.Login.init();
       this.$.login.toggle(); // show login form
+      
+      Socket.on('user:connected', function( data ) {
+        console.log('user connected:');
+        console.log(data);
+      });
+      
     },
     
     //- PROCESS LOGIN
     login : function() {
     
-      var u = this.$.username.value,
-          e = this.$.email.value;
+      //- var u = this.$.username.value,
+          //- e = this.$.email.value,
+      var Socket  = window.socket;
+          
+          console.log('user.login()');
+      
+      //- this.socket = window.socket = io.connect( server );
       
       //- SEND LOGIN TO SOCKET
-      window.socket.emit('user:login', { email : e, user_id : u, room_id : 'general' });
+      Socket.emit('user:login', {});
 
     },
     

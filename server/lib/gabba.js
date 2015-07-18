@@ -10,7 +10,7 @@ module.exports = function (app) {
 				this.log(' ');
 				this.log(' ');
 				this.log('# # # # # # # # # # # # # # # # # # # # # # # # # # # # # #'.blue);
-				this.log('      FIRING UP THE POG SERVER, STAND BY FOR LAUNCH. '.white);
+				this.log('      FIRING UP THE gabba SERVER, STAND BY FOR LAUNCH. '.white);
 				this.log('# # # # # # # # # # # # # # # # # # # # # # # # # # # # # #'.blue);
 				this.log(' ');
 			} else if( type === 'done' ) {
@@ -27,10 +27,10 @@ module.exports = function (app) {
 				this.log(' ');
 				this.log('# # # # # # # # # # # # # # # # # # # # # # # # # # # #'.red);
 				this.log(' ');
-				this.log('     OH NOES! Pog Server Failed to start! :( '.yellow);
+				this.log('     OH NOES! gabba Server Failed to start! :( '.yellow);
 				this.log(' ');
 				this.log('It looks like something is already running on port ' + app.config.port );
-				this.log('Please double check that Pog is not already running' );
+				this.log('Please double check that gabba is not already running' );
 				this.log('If you continue to see this error, you should update the');
 				this.log('port number in your config file (config/_settings.js)');
 				this.log(' ');
@@ -46,7 +46,7 @@ module.exports = function (app) {
 
 		},
 
-		// ALLOW POG LOGGING TO BE TURNED OFF IN CONFIG
+		// ALLOW gabba LOGGING TO BE TURNED OFF IN CONFIG
 		log: function(what) {
 			if ( app.config.logging.console === true ) console.log(what);
 		},
@@ -88,7 +88,7 @@ module.exports = function (app) {
 
 		throwError : function *(err) {
 
-      err.pog.status = err.code;
+      err.gabba.status = err.code;
 
       if ( typeof err.stack !== 'undefined' ) {
         app.log('ERROR: '.red + err.stack);
@@ -97,20 +97,20 @@ module.exports = function (app) {
       }
 
       if ( app.config.errorReporting.browser === true ) {
-        err.pog.errorTitle = err.title;
-        err.pog.errorMessage = err.message;
+        err.gabba.errorTitle = err.title;
+        err.gabba.errorMessage = err.message;
       } else {
-        err.pog.errorTitle = 'Internal Server Error';
-        err.pog.errorMessage = 'The server has encountered an unexpected error and cannot continue';
+        err.gabba.errorTitle = 'Internal Server Error';
+        err.gabba.errorMessage = 'The server has encountered an unexpected error and cannot continue';
       }
       var controller = require(app.base + '/app/controllers/errorController.js');
 
       if ( err.code  === 404 ) {
-        return yield controller.throw404(err.pog).next();
+        return yield controller.throw404(err.gabba).next();
       } else if ( err.code  === 500) {
-        return yield controller.throw500(err.pog).next();
+        return yield controller.throw500(err.gabba).next();
       } else {
-        return yield controller.throwGeneric(err.pog).next();
+        return yield controller.throwGeneric(err.gabba).next();
       }
 
 

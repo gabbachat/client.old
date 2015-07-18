@@ -1,4 +1,4 @@
-<dom-module id="login-form"><template><status></status><iron-collapse id="login"><input id="username" name="username" placeholder="Jiminy Cricket" class="name"/><input id="email" name="email" placeholder="jiminy@cricket.com" type="email" class="email"/><login-actions><paper-button id="login-button" class="primary">Login</paper-button><paper-button id="show-register-button" class="secondary">Register</paper-button></login-actions></iron-collapse><iron-collapse id="register"><input placeholder="Name"/><input placeholder="Email"/><input placeholder="Password"/><login-actions><paper-button id="register-button" class="primary">Register</paper-button><paper-button id="cancel-register-button" class="aside">Cancel</paper-button></login-actions></iron-collapse></template></dom-module><style>input {
+<dom-module id="login-form"><template><status></status><iron-collapse id="login"><login-actions><a href="/auth/twitter"><paper-button id="login-button" class="primary">Login with Twitter</paper-button></a><a href="/auth/github"><paper-button id="login-button" class="primary">Login with Github</paper-button></a></login-actions></iron-collapse><iron-collapse id="register"><input placeholder="Name"/><input placeholder="Email"/><input placeholder="Password"/><login-actions><paper-button id="register-button" class="primary">Register</paper-button><paper-button id="cancel-register-button" class="aside">Cancel</paper-button></login-actions></iron-collapse></template></dom-module><style>input {
   display: block;
   margin-bottom: 10px;
   width: 100%;
@@ -17,25 +17,38 @@ login-actions {
   
   listeners: {
     'login-button.tap': 'login',
-    'show-register-button.tap': 'showRegister',
+    //- 'show-register-button.tap': 'showRegister',
     'register-button.tap': 'register',
     'cancel-register-button.tap': 'cancelRegister'
   },
   
   //- LOCKER & LOADED
   ready : function() {
-    Gabba.Login.init();
+  
+    var Socket  = window.socket;
+    //- Gabba.Login.init();
     this.$.login.toggle(); // show login form
+    
+    Socket.on('user:connected', function( data ) {
+      console.log('user connected:');
+      console.log(data);
+    });
+    
   },
   
   //- PROCESS LOGIN
   login : function() {
   
-    var u = this.$.username.value,
-        e = this.$.email.value;
+    //- var u = this.$.username.value,
+        //- e = this.$.email.value,
+    var Socket  = window.socket;
+        
+        console.log('user.login()');
+    
+    //- this.socket = window.socket = io.connect( server );
     
     //- SEND LOGIN TO SOCKET
-    window.socket.emit('user:login', { email : e, user_id : u, room_id : 'general' });
+    Socket.emit('user:login', {});
 
   },
   

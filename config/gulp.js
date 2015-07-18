@@ -1,6 +1,6 @@
 var app = {};
 
-require('./pog')(app);
+require('./gabba')(app);
 require('./environment/development')(app);
 
 module.exports = {

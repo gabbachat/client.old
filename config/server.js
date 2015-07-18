@@ -2,6 +2,11 @@
 
 module.exports = function(app) {
 
+  const session = require('koa-generic-session'),
+        redisStore = require('koa-redis'),
+        bodyParser = require('koa-bodyparser'),
+        Router = require('koa-router')(),
+        passport = require('koa-passport');
 
   // >  - - - - - - - - <
   // >  CSS PROCESSOR   <
@@ -45,6 +50,30 @@ module.exports = function(app) {
 
   // SERVE STATIC FILES
   app.use( require('koa-static')( app.dir.public ) );
+
+  // SET OUR KEYS
+  app.keys = [app.config.secret];
+
+  // USE REDIS FOR SESSION STORAGE
+  app.use(session({
+    store: redisStore()
+  }));
+
+  // MAKE SESSION DATA AVAILABLE TO APP
+  app.use(function *( next ) {
+    app.session = this.session;
+    yield next;
+  });
+
+  // app.use(bodyParser());
+
+  // ENABLE PASSPORT
+  app.use(passport.initialize());
+  app.use(passport.session());
+
+  // ENABLE ROUTER
+  app.router = Router;
+  app.use(app.router.routes());
 
 
 };

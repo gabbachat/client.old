@@ -1,13 +1,13 @@
 'use strict';
 
 // GENERIC ERROR
-exports.throwGeneric = function *(pog) {
+exports.throwGeneric = function *(gabba) {
 
-	pog.render('errors/default', {
-		title : pog.errorTitle,
-		error: pog.errorMessage,
-		site: pog.app,
-		url: pog.request.originalUrl
+	gabba.render('errors/default', {
+		title : gabba.errorTitle,
+		error: gabba.errorMessage,
+		site: gabba.app,
+		url: gabba.request.originalUrl
 	});
 
 	yield;
@@ -16,13 +16,13 @@ exports.throwGeneric = function *(pog) {
 
 
 // 404 ERROR
-exports.throw404 = function *(pog) {
+exports.throw404 = function *(gabba) {
 
-	pog.render('errors/404', {
-		title : pog.errorTitle,
-		error: pog.errorMessage,
-		site: pog.app,
-		url: pog.request.originalUrl
+	gabba.render('errors/404', {
+		title : gabba.errorTitle,
+		error: gabba.errorMessage,
+		site: gabba.app,
+		url: gabba.request.originalUrl
 	});
 
 	yield;
@@ -31,13 +31,13 @@ exports.throw404 = function *(pog) {
 
 
 // 500 ERROR
-exports.throw500 = function *(pog) {
+exports.throw500 = function *(gabba) {
 
-	pog.render('errors/500', {
-		title : pog.errorTitle,
-		error: pog.errorMessage,
-		site: pog.app,
-		url: pog.request.originalUrl
+	gabba.render('errors/500', {
+		title : gabba.errorTitle,
+		error: gabba.errorMessage,
+		site: gabba.app,
+		url: gabba.request.originalUrl
 	});
 
 	yield;

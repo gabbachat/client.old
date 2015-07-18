@@ -1,14 +1,14 @@
 'use strict';
 
-module.exports = function *(pog) {
+module.exports = function *(gabba) {
 
 	console.log('index loaded');
-	console.log(pog.app.name);
-	console.log(pog.app);
+	console.log(gabba.app.name);
+	console.log(gabba.app);
 
-  pog.render('index', {
-    title : pog.app.name,
-    site: pog.app
+  gabba.render('index', {
+    title : gabba.app.name,
+    site: gabba.app
   });
 
 	yield;
