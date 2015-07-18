@@ -52,7 +52,7 @@ module.exports = function(app) {
   app.use( require('koa-static')( app.dir.public ) );
 
   // SET OUR KEYS
-  app.keys = [app.config.secret];
+  app.keys = [process.env.SECRET || app.config.secret];
 
   // USE REDIS FOR SESSION STORAGE
   app.use(session({
