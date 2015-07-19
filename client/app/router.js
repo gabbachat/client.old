@@ -1,10 +1,12 @@
 const Backbone  = require('backbone');
 
+let Register = require('./components/register')();
+
 let Router = Backbone.Router.extend({
 
     routes : {
       'chat' : function() {
-        require('./components/register')().render();
+        Register.render();
       },
     }
 

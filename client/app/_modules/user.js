@@ -3,54 +3,26 @@
 module.exports = function () {
 
   const $         = require('jquery-browserify'),
-      Browser = require('../_modules/browser'),
-      Room    = require('../_modules/room')(),
-      Socket  = window.socket;
+        Browser = require('../_modules/browser'),
+        Room    = require('../_modules/room')();
 
   return {
 
     init : function() {
 
-      let User = this;
+      let Socket  = window.socket,
+          User = this;
 
-      User.bind();
+      console.log('User.init()');
+      // console.log( Socket );
+
+      // User.bind();
       User.connected();
-      User.list();
-      User.listByRoom();
-
-      if ( localStorage.getItem('user_id') && localStorage.getItem('email') ) {
-        console.log('already logged in.');
-        let email = localStorage.getItem('email'),
-            user_id = localStorage.getItem('user_id');
-        User.login( email, user_id );
-      } else {
-        console.log('not logged in');
-        if ( Browser.segment(1) === 'group' ) {
-          location.href='/';
-          console.log('relocate to /');
-        }
-      }
-
+      User.find();
+      // User.listByRoom();
     },
 
     bind : function() {
-
-      let User = this;
-
-      // LOGIN WHEN USER PRESSER GO BUTTON
-      $('button.go').click(function() {
-        User.login( $('#email').val(), $('#username').val() );
-      });
-
-      // LOGIN WHEN USER PRESSE ENTER KEY
-      $('#email').on('keyup', function(e) {
-        if ( e.keyCode === 13 ) User.login( $('#email').val(), $('#username').val() );
-      });
-
-      $('.logout').click(function() {
-        localStorage.clear();
-        location.href='/';
-      });
 
     },
 
@@ -58,16 +30,18 @@ module.exports = function () {
     // WHEN THE USER HAS CONNECTED
     connected : function () {
 
-      let User = this;
-      
+      let Socket  = window.socket,
+          User = this;
+
       Socket.on('user:connected', function( data ) {
+        console.log('user:connected');
 
-        localStorage.setItem('user_id', data.user_id);
-        data.room_id = 'main';
-
-        if ( Browser.segment(2) ) data.room_id = Browser.segment(2);
-
-        Room.join(data);
+        // localStorage.setItem('user_id', data.user_id);
+        // data.room_id = 'main';
+        //
+        // if ( Browser.segment(2) ) data.room_id = Browser.segment(2);
+        //
+        // Room.join(data);
 
       });
 
@@ -90,27 +64,19 @@ module.exports = function () {
     // REGISTER USER WITH SERVER
     login : function ( email, user ) {
 
-      console.log('logging in as ' + user );
+    },
 
-      let room_id = 'main';
+    // SEARCH USER WITH SERVER
+    find : function () {
 
-      if ( Browser.segment(1) === 'group' ) {
-        room_id = Browser.segment(2);
-        localStorage.setItem('user_id', user);
-        localStorage.setItem('email', email);
-        localStorage.setItem('room_id', room_id);
-        Socket.emit('user:login', { email : email, user_id : user, room_id : room_id });
-      } else {
+      console.log('User.find()');
 
-        if ( localStorage.getItem('currentRoom') ) room_id = localStorage.getItem('currentRoom');
+      let Socket  = window.socket,
+          User = this;
 
-        localStorage.setItem('user_id', user);
-        localStorage.setItem('email', email);
-        localStorage.setItem('room_id', room_id);
-        console.log('relocate to /group/' + room_id);
-        location.href='/group/' + room_id;
-      }
-
+      Socket.on('user:check:result', function(data) {
+        console.log(data.status);
+      });
 
     }
 

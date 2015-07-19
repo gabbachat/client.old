@@ -1,1 +1,1 @@
-require('./router').init(); // INITIALIZE ROUTER
+window.Gabba = require('./_modules/gabba')();

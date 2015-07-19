@@ -13,13 +13,33 @@ console.log(User.attributes);
 
 var ReactApp = React.createClass({
 
-  getDefaultProps: function() {
-    return User.attributes;
+  // getDefaultProps: function() {
+  //   return User.attributes;
+  // },
+
+
+  // defaultValue: function() {
+  //   return User.attributes;
+  // },
+
+  componentDidMount: function() {
+
+    console.log('Register component loaded.');
+
+    // CHECK IF DEFAULT USERNAME IS AVAILABLE
+    window.socket.emit('user:check', {
+      username: this.props.username
+    });
+
   },
 
   // CHECK THAT USERNAME IS AVAILABLE
   checkUsername: function( event ) {
-    console.log( event.target.value );
+
+    window.socket.emit('user:check', {
+      username: event.target.value
+    });
+
   },
 
   render: function() {
@@ -33,20 +53,20 @@ var ReactApp = React.createClass({
           <label>username</label>
           <input
                 id="username"
-                value={this.props.username}
+                defaultValue={this.props.username}
                 onChange={this.checkUsername}
           />
         </section>
 
         <section className="optional">
           <h2>Edit Your Info</h2>
-          <input id="name" placeholder="Name" value={this.props.name} />
+          <input id="name" placeholder="Name" defaultValue={this.props.name} />
           <input placeholder="email@domain.com"/>
           <label>Create a password (optional)</label>
           <input placeholder="Password"/>
         </section>
 
-        <input type="hidden" id="provider" name="provider" value={this.props.provider} />
+        <input type="hidden" id="provider" name="provider" value={this.props.provider} readOnly />
 
       </section>
     );

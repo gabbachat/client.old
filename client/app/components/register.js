@@ -32,6 +32,7 @@ module.exports = function () {
       console.log(User.attributes);
 
       React.render(new Register(User.attributes), mountNode);
+
     }
 
   };
