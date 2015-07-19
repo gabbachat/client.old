@@ -286,14 +286,16 @@ a:visited:hover {
 }
 input {
   background: #fff;
-  border-radius: 3pc;
-  margin: 0px 0px 0px 0px;
-  padding: 20px;
+  border-color: #ccc;
+  border-radius: 3px;
   border-style: solid;
   border-width: 2px;
-  border-color: #ccc;
+  margin: 0px 0px 10px 0px;
+  padding: 20px;
+  width: 100%;
 }
 label {
+  display: inline-block;
   font-family: 'Helvetica Neue', 'Arial', sans-serif;
   font-weight: bold;
   font-size: 15px;
@@ -310,5 +312,5 @@ input.ok {
 .register .avatar {
   float: left;
   margin: 0px 10px 20px 0px;
-  width: 100px;
+  width: 110px;
 }
