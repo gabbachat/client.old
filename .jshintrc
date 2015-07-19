@@ -13,6 +13,7 @@
   "maxlen": 240,
   "newcap": true,
   "noarg": true,
+  "noyield": true,
   "node": true,
   "noempty": true,
   "quotmark": "single",

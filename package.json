@@ -59,6 +59,7 @@
     "markdown-it-emoji": "^1.0.0",
     "mime": "^1.3.4",
     "moment": "^2.9.0",
+    "node-jsx": "^0.13.3",
     "passport": "^0.2.2",
     "passport-facebook": "^2.0.0",
     "passport-github": "^0.1.5",
@@ -77,6 +78,9 @@
   },
   "devDependencies": {
     "babelify": "^5.0.4",
+    "coffee-react-transform": "^3.2.0",
+    "coffee-reactify": "^4.0.0",
+    "coffee-script": "^1.9.3",
     "gulp": "^3.8.11",
     "gulp-autoprefixer": "^2.1.0",
     "gulp-babel": "^4.0.0",
@@ -88,9 +92,14 @@
     "gulp-jade": "^1.0.1",
     "gulp-load-plugins": "^0.8.1",
     "gulp-nodemon": "^1.0.5",
+    "gulp-react-jade": "^0.2.0",
     "gulp-size": "^1.2.1",
     "gulp-stylus": "^2.0.5",
-    "require-dir": "^0.3.0"
+    "react-jade": "^2.4.0",
+    "reactify": "^1.1.1",
+    "replace-ext": "0.0.1",
+    "require-dir": "^0.3.0",
+    "through2": "^2.0.0"
   },
   "scripts": {
     "start": "node server.js"

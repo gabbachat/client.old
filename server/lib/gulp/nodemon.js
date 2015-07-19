@@ -11,7 +11,7 @@ gulp.task('nodemon', function (cb) {
   var called = false;
   return $.nodemon({
     script: config.server.file,
-    ext: 'css, html, jade, js',
+    ext: 'css, html, jade, js, jsx',
     ignore: ['README.md', 'node_modules', 'bower_components', '.DS_Store'],
     'execMap': {
       'js': config.server.type

@@ -24,7 +24,7 @@ module.exports = {
       dest : './client/_dist/js'
     }
   },
-  polymerTemplates : {
+  templates : {
     src : './client/templates/*.jade',
     dest : './client/_dist/templates/'
   },
@@ -34,7 +34,7 @@ module.exports = {
     css : './client/_dist/css/gabba.css',
     jade : './server/views/**/*.jade',
     img : './client/img/**/*',
-    js : './client/app/**/*',
+    js : ['./client/app/**/*.js', './client/app/**/*.jsx'],
     stylus : './client/css/**/*.styl'
   }
 }

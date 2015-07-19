@@ -1,0 +1,36 @@
+{
+  "name": "gulp-jade-react",
+  "version": "0.2.0",
+  "description": "Compile Jade templates to React components",
+  "main": "./main.js",
+  "scripts": {
+    "test": "gulp test --require coffee-script/register"
+  },
+  "keywords": [
+    "gulpplugin"
+  ],
+  "author": "Duncan Beevers",
+  "license": "WTFPL",
+  "devDependencies": {
+    "chai": "~1.8.1",
+    "gulp-mocha": "~0.4.1",
+    "gulp-util": "~2.2.12",
+    "gulp": "~3.5.0",
+    "gulp-bump": "~0.1.3",
+    "gulp-git": "~0.2.1",
+    "package": "~1.0.1"
+  },
+  "dependencies": {
+    "coffee-script": "^1.7.1",
+    "react-jade": "^0.4.0",
+    "through2": "^0.4.1",
+    "replace-ext": "^0.0.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/duncanbeevers/gulp-jade-react.git"
+  },
+  "bugs": {
+    "url": "https://github.com/duncanbeevers/gulp-jade-react/issues"
+  }
+}

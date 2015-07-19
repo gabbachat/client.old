@@ -10,8 +10,10 @@ gulp.task('js', function () {
   gulp.src(config.build.js.src)
       .pipe($.babel())
       .pipe($.browserify({
-        transform: [require('../polymerize'), 'babelify'],
-        insertGlobals : false,
+        transform: [
+          'babelify',
+          ['reactify', {'es6': true}]
+        ],
         debug : true
       }))
       .pipe(gulp.dest(config.build.js.dest));

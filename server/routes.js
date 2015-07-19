@@ -3,16 +3,13 @@
 module.exports = function(app) {
 
   const CookieDough = require('cookie-dough'),
-        socket = require('socket.io-client')(app.public.socket);
+        React       = require('react'),
+        socket      = require('socket.io-client')(app.public.socket);
 
   socket.on('connected', function( data ) {
     console.log('socket connected: ');
     console.log(data.connected);
   });
-
-  // app.router.get('/auth/twitter', function *() {
-  //     this.body = 'twitter';
-  // });
 
   app.router.get('/', function *() {
 
@@ -32,7 +29,44 @@ module.exports = function(app) {
 
   });
 
+
   app.router.get('/chat', function *() {
+
+    let passport = this.session.passport,
+        ReactApp = React.createFactory(require('../shared/register.jsx'));
+
+    console.log('PASSPORT');
+    // console.log(passport);
+
+    if ( passport._json.profile_image_url ) {
+      passport.avatar = passport._json.profile_image_url.split('_normal').join('');
+    }
+
+    if ( passport._json.avatar_url ) {
+      passport.avatar = passport._json.avatar_url;
+    }
+
+
+    let reactHtml = React.renderToString(new ReactApp({
+      avatar : passport.avatar,
+      name : passport.displayName,
+      username: passport.username
+    }));
+
+    // console.log(reactHtml);
+
+    // let passport = this.session.passport;
+
+    this.render('register', {
+      title : app.name,
+      site: app,
+      reactOutput: reactHtml
+      // passport: passport
+    });
+
+  });
+
+  app.router.get('/chatOld', function *() {
 
     // IF WE HAVE A VALID SESSION
     if ( this.session.passport.id ) {

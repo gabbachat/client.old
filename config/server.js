@@ -5,6 +5,7 @@ module.exports = function(app) {
   const bodyParser    = require('koa-bodyparser'),
         CookieDough   = require('cookie-dough'),
         cookieParser  = require('cookie-parser'),
+        React         = require('react'),
         redisStore    = require('koa-redis'),
         Router        = require('koa-router')(),
         passport      = require('koa-passport'),
@@ -16,7 +17,6 @@ module.exports = function(app) {
 
   app.log('INFO: '.blue + 'using ' + 'stylus'.yellow + ' for css');
   app.use(require('koa-stylus')(app.dir.css));
-
 
   // >  - - - - - - - - <
   // >  HTML TEMPLATES  <
@@ -36,6 +36,10 @@ module.exports = function(app) {
     compileDebug: app.config.debug,
     basedir: app.base
   }));
+
+  require('node-jsx').install({
+    harmony: true
+  });
 
   // >  - - - - - - - - <
   // >  MISCELLANEOUS   <
