@@ -1,2 +1,22 @@
 input.ok
   border-color $ok
+  color: $ok
+
+input.bad, input.taken
+  border-color $bad
+  color $bad
+
+
+.form-status
+  display inline-block
+  float right
+  font-family 'Helvetica Neue', 'Arial', sans-serif
+  font-weight bold
+  font-size 15px
+  opacity 0
+
+  &.ok
+    color $ok
+
+  &.bad
+    color $bad

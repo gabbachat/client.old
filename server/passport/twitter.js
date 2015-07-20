@@ -9,7 +9,8 @@ module.exports = function( app ) {
       callbackURL: app.address + app.config.passport.twitter.callback
     },
     function(token, tokenSecret, profile, done) {
-      // retrieve user ...
+      app.session.token = token;
+      app.session.secret = tokenSecret;
       done(null, profile);
     }
   ));

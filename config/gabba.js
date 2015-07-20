@@ -126,7 +126,7 @@ module.exports = function (app) {
 
     // ### PORT
     // gabba runs on port 1981 be default, you can change that here.
-    port : 1980,
+    port : 1981,
 
     // ### PRETTIFY
     // Tell gabba if you want your output pretty or minified

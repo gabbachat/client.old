@@ -300,8 +300,42 @@ label {
   font-weight: bold;
   font-size: 15px;
 }
+.button {
+  background-color: #852bcc;
+  border: none;
+  color: #fff;
+  padding: 10px 20px;
+  transition: 0.5s ease background;
+}
+.button:hover {
+  background: #6a22a3;
+  cursor: pointer;
+}
 input.ok {
   border-color: #42c23b;
+  color: #42c23b;
+}
+input.bad,
+input.taken {
+  border-color: #c00;
+  color: #c00;
+}
+.form-status {
+  display: inline-block;
+  float: right;
+  font-family: 'Helvetica Neue', 'Arial', sans-serif;
+  font-weight: bold;
+  font-size: 15px;
+  opacity: 0;
+}
+.form-status.ok {
+  color: #42c23b;
+}
+.form-status.bad {
+  color: #c00;
+}
+.register {
+  opacity: 0;
 }
 .register .optional {
   margin-top: 20px;

@@ -6,7 +6,7 @@ let Router = Backbone.Router.extend({
 
     routes : {
       'chat' : function() {
-        Register.render();
+        Register.check();
       },
     }
 

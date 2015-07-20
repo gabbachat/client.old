@@ -11,6 +11,8 @@ module.exports = function( app ) {
       callbackURL: app.address + app.config.passport.github.callback
     },
     function(token, tokenSecret, profile, done) {
+      app.session.token = token;
+      app.session.secret = tokenSecret;
       done(null, profile);
     }
   ));

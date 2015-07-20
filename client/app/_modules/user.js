@@ -13,19 +13,9 @@ module.exports = function () {
       let Socket  = window.socket,
           User = this;
 
-      console.log('User.init()');
-      // console.log( Socket );
-
-      // User.bind();
       User.connected();
-      User.find();
-      // User.listByRoom();
+      User.check();
     },
-
-    bind : function() {
-
-    },
-
 
     // WHEN THE USER HAS CONNECTED
     connected : function () {
@@ -35,14 +25,6 @@ module.exports = function () {
 
       Socket.on('user:connected', function( data ) {
         console.log('user:connected');
-
-        // localStorage.setItem('user_id', data.user_id);
-        // data.room_id = 'main';
-        //
-        // if ( Browser.segment(2) ) data.room_id = Browser.segment(2);
-        //
-        // Room.join(data);
-
       });
 
     },
@@ -66,16 +48,38 @@ module.exports = function () {
 
     },
 
-    // SEARCH USER WITH SERVER
-    find : function () {
-
-      console.log('User.find()');
+    // CHECK IF USERNAME EXISTS
+    check : function () {
 
       let Socket  = window.socket,
           User = this;
 
       Socket.on('user:check:result', function(data) {
-        console.log(data.status);
+
+        console.log( 'user check: ' + data.status );
+
+        $('#register-username')
+          .removeClass('taken')
+          .removeClass('ok')
+          .addClass(data.status);
+
+        if ( data.status === 'ok' ) {
+          $('#register-username-status')
+            .html('that\'s available!')
+            .addClass('ok')
+            .removeClass('bad')
+            .animate({opacity: 1});
+        }
+
+        if ( data.status === 'taken' ) {
+          $('#register-username-status')
+            .html('that name\'s taken :(')
+            .addClass('bad')
+            .removeClass('ok')
+            .animate({opacity: 1});
+        }
+
+
       });
 
     }
