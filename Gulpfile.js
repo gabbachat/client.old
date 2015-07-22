@@ -1,1 +1,1 @@
-require('require-dir')('server/lib/gulp');
+require('require-dir')('_/gulp');
