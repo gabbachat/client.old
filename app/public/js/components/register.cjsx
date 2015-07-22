@@ -1,4 +1,4 @@
-Model = require '../../../models/user'
+Model = require '../../../../models/user'
 React = require 'react'
 
 ReactApp = React.createClass
@@ -10,9 +10,11 @@ ReactApp = React.createClass
   componentDidMount: ->
     console.info 'loaded: shared/components/register.cjsx'
     window.socket.emit 'user:check', username: @props.profile.username
+    return
 
   checkUsername: ->
     window.socket.emit 'user:check', username: event.target.value
+    return
 
   registerUser: ->
     console.log 'attempt to register user'

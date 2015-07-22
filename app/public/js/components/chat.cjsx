@@ -1,4 +1,3 @@
-Model = require '../../../models/user'
 React = require 'react'
 
 ReactApp = React.createClass
@@ -7,6 +6,7 @@ ReactApp = React.createClass
 
   componentDidMount: ->
     console.info('loaded: shared/components/chat.jsx');
+    return
 
   render: ->
       <section className="chat">

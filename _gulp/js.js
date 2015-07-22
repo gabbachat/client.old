@@ -3,13 +3,34 @@ var $       = require('gulp-load-plugins')(),
     fs = require('fs'),
     gulp    = require('gulp'),
     inform  = require('./inform'),
-    log = require('gulp-util').log;
+    log = require('gulp-util').log,
+    source = require('vinyl-source-stream'),
+    transform = require('vinyl-transform');
+
+
+
+gulp.task('coffee', function() {
+
+  inform('Running gulp task "coffee"');
+
+  gulp.src(config.build.coffee.src)
+      .pipe($.coffee({bare: true}))
+      .pipe(gulp.dest(config.build.coffee.dest));
+
+  gulp.src(config.build.coffeeInc.src)
+      .pipe($.coffee({bare: true}))
+      .pipe(gulp.dest(config.build.coffeeInc.dest));
+
+});
+
 
 gulp.task('jsx', function () {
 
-  gulp.src(config.build.react.src)
+  inform('Running gulp task "jsx"');
+
+  gulp.src(config.build.jsx.src)
       .pipe($.cjsx({bare: false}))
-      .pipe(gulp.dest(config.build.react.dest));
+      .pipe(gulp.dest(config.build.jsx.dest));
 
 });
 
@@ -22,10 +43,13 @@ gulp.task('js', function () {
       .pipe($.browserify({
         transform: [
           'babelify',
-          ['reactify', {'es6': true}]
+          ['reactify', {'es6': true}],
+          // 'uglifyify'
         ],
-        debug : true
+        debug : false
       }))
+      // .pipe()
+      // .pipe($.uglify())
       .pipe(gulp.dest(config.build.js.dest));
 
 }); // END: CSS TASK

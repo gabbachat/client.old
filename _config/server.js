@@ -13,7 +13,7 @@ module.exports = function(app) {
   // >  - - - - - - - - <
 
   app.log('INFO: '.blue + 'using ' + 'stylus'.yellow + ' for css');
-  app.use(require('koa-stylus')(app.dir.css));
+  // app.use(require('koa-stylus')(app.dir.css));
 
   // >  - - - - - - - - <
   // >  HTML TEMPLATES  <

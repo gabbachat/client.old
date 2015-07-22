@@ -11,19 +11,27 @@ module.exports = {
   },
   build : {
     css : {
-      stylus : './app/public/client/css/**/*.styl',
-      src : './app/public/client/css/gabba.styl',
-      dest : './app/public/css/_dist'
+      stylus : './app/public/css/**/*.styl',
+      src : './app/public/css/gabba.styl',
+      dest : './app/public/_dist/css'
     },
     img : {
       src : './app/public/img/**/*',
       dest : './app/public/_dist/img/'
     },
     js : {
-      src : './client/app/gabba.js',
+      src : './app/public/_dist/js/gabba.js',
+      dest : './app/public/_dist/'
+    },
+    coffee : {
+      src : './app/public/js/*.coffee',
       dest : './app/public/_dist/js'
     },
-    react : {
+    coffeeInc : {
+      src : './app/public/js/_inc/**/*.coffee',
+      dest : './app/public/_dist/js/_inc'
+    },
+    jsx : {
       src : './app/public/js/components/**/*.cjsx',
       dest : './app/public/_dist/js/components/'
     }
@@ -37,6 +45,6 @@ module.exports = {
     img : './app/public/img/**/*',
     js : './app/public/js/**/*.js',
     react : './shared/components/**/*.cjsx',
-    stylus : './app/public/client/css/**/*.styl'
+    stylus : './app/public/css/**/*.styl'
   }
 };
