@@ -1,9 +1,7 @@
-script(src='#{site.public.lib}/systemjs/system.js')
-script(src="#{site.public.socket}socket.io/socket.io.js")
+//- script(src='#{site.public.lib}/systemjs/system.js')
+//- script(src="#{site.public.socket}socket.io/socket.io.js")
 script(src='#{site.public.build}gabba.js')
 
 script.
-	//- System.transpiler = 'reactify';
-
-	System.transpiler = 'babel';
-	window.Gabba.init('#{site.public.socket}gabba');
+	//- System.transpiler = 'babel';
+	//- window.Gabba.init();

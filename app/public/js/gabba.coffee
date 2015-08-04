@@ -1,16 +1,33 @@
-window.Gabba = init: (server) ->
+Router = require '../_dist/js/modules/router'
+UserModel = require '../_dist/models/user'
 
-  Socket = window.socket = io.connect(server)
+module.exports = {
 
-  Socket.on 'connected', (data) ->
-    console.log 'socket connected with id ' + data.id
+  # INITIALIZE
+  init: ->
+
+    @model.user = new UserModel()
+
+    # DEFINE ROUTER
+    @Router = new Router
+
+    console.log Router
+
+    # ADD TO WINDOW
+    window.gabba = @
+
+    console.log 'Gabba gabba hey'
+
+  # MODELS
+  model: {},
+
+  # NAVIGATION OBJECT
+  navigate: (url) ->
+    gabba.history.navigate url, true
     return
 
-  Socket.on 'error', (data) ->
-    console.log 'socket error: '
-    console.error data
-    return
+  auth: require '../_dist/js/modules/auth'
 
-  require('./router').init() # INITIALIZE ROUTER
+}
 
-  return
+module.exports.init()

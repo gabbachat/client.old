@@ -10,28 +10,11 @@ module.exports = function(app) {
     console.log(data.connected);
   });
 
-  app.router.get('/', function *() {
+  app.router.get('/chat', function *() {
 
-    this.render('index', {
-      title : app.name,
-      site: app
-    });
+    console.log('CHAT ROUTE');
 
-  });
-
-  app.router.get('/login', function *() {
-
-    this.render('login', {
-      title : app.name,
-      site: app
-    });
-
-  });
-
-
-  app.router.get('/chat/', function *() {
-
-    let Model     = require('../models/user'),
+    let Model     = require('../public/_dist/models/user'),
         session = this.session,
         passport = this.session.passport,
         authorized = [],
@@ -55,8 +38,7 @@ module.exports = function(app) {
           url: null,
           name: null,
           location: null
-        },
-        ReactApp = React.createFactory(require('../public/_dist/js/components/register.js'));
+        };
 
     // TWITTER
     if ( passport._json.profile_image_url ) {
@@ -133,10 +115,40 @@ module.exports = function(app) {
         rooms : []
     });
 
-    this.render('register', {
+    console.log(User);
+
+    this.render('chat', {
       title : app.name,
       site: app,
-      reactOutput: React.renderToString(new ReactApp(User.attributes))
+      user: User
+    });
+
+  });
+
+
+  app.router.get('/chat2', function *() {
+
+    this.render('chat', {
+      title : app.name,
+      site: app
+    });
+
+  });
+
+  app.router.get('/login', function *() {
+
+    this.render('index', {
+      title : app.name,
+      site: app
+    });
+
+  });
+
+  app.router.get('/', function *() {
+
+    this.render('index', {
+      title : app.name,
+      site: app
     });
 
   });
