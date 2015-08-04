@@ -1,7 +1,7 @@
 var app = {};
 
-require('./gabba')(app);
-require('./environment/development')(app);
+require('../../_config/gabba')(app);
+require('../../_config/environment/development')(app);
 
 module.exports = {
   app : app,
@@ -25,11 +25,15 @@ module.exports = {
     },
     coffee : {
       src : './app/public/js/*.coffee',
-      dest : './app/public/_dist/js'
+      dest : './app/public/_dist/'
     },
-    coffeeInc : {
-      src : './app/public/js/_inc/**/*.coffee',
-      dest : './app/public/_dist/js/_inc'
+    coffeeModels : {
+      src : './app/models/**/*.coffee',
+      dest : './app/public/_dist/models'
+    },
+    coffeeModules : {
+      src : './app/public/js/modules/**/*.coffee',
+      dest : './app/public/_dist/js/modules'
     },
     jsx : {
       src : './app/public/js/components/**/*.cjsx',
@@ -39,7 +43,9 @@ module.exports = {
   bower : './lib/bower',
   lib : './lib',
   watch : {
-    coffee : './app/public/app/**/*.coffee',
+    coffee : './app/public/js/*.coffee',
+    coffeeModels : './app/models/**/*.coffee',
+    coffeeModules : './app/public/js/modules/**/*.coffee',
     css : './app/public/_dist/css/gabba.css',
     jade : './app/views/**/*.jade',
     img : './app/public/img/**/*',
