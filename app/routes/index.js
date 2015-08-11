@@ -125,26 +125,7 @@ module.exports = function(app) {
 
   });
 
-
-  app.router.get('/chat2', function *() {
-
-    this.render('chat', {
-      title : app.name,
-      site: app
-    });
-
-  });
-
-  app.router.get('/login', function *() {
-
-    this.render('index', {
-      title : app.name,
-      site: app
-    });
-
-  });
-
-  app.router.get('/', function *() {
+  app.router.get('*', function *() {
 
     this.render('index', {
       title : app.name,

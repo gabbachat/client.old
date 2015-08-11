@@ -20,45 +20,38 @@ View = AmpersandView.extend();
 
 module.exports = AmpersandRouter.extend({
   routes: {
+    '': 'index',
     'chat': 'chat',
     'login': 'login',
     'search/:query': 'search',
-    'search/:query/p:page': 'search'
+    'search/:query/p:page': 'search',
+    '*error': 'error'
   },
   initialize: function() {
-    return this.history.start({
+    this.history.start({
       pushState: true
     });
+    return console.log('Ampersand router loaded');
   },
   index: function() {
-    return Page.set(new View({
+    Page.set(new View({
       template: Template.index
     }));
+    return console.log('index route loaded');
   },
   chat: function() {
-    Page.set(new View({
-      template: Template['register-form'],
-      bindings: {
-        User: {
-          profile: {
-            name: 'World'
-          }
-        }
-      },
+    return Page.set(new View({
+      template: Template['register-form']({
+        name: 'test'
+      }),
       render: function() {
         return this.renderWithTemplate();
       }
     }));
-    console.log('chat');
-    console.log('gabba');
-    console.log(window.gabba);
-    return User.set('profile', {
-      name: 'World'
-    });
   },
   error: function() {
     return Page.set(new View({
-      template: '<h1>Error, page not found</h1>'
+      template: '<h1>Page not found</h1>'
     }));
   },
   login: function() {

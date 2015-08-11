@@ -15,49 +15,39 @@ module.exports = AmpersandRouter.extend(
 
   # ROUTE OBJECT
   routes:
-    # '/': 'index',
+    '': 'index',
     # 'auth/:type': 'auth',
     'chat': 'chat'
     'login': 'login'
     'search/:query': 'search'
     'search/:query/p:page': 'search'
-    # '*error': 'error'
+    '*error': 'error'
 
   # INTIALIZE ROUTER
   initialize: ->
     @history.start pushState: true
+    console.log 'Ampersand router loaded'
 
   # MAIN INDEX PAGE
   index: ->
     Page.set new View(template: Template.index)
+    console.log 'index route loaded'
 
   # HANDLE ERRORS
   chat: ->
 
     Page.set new View(
-      template: Template['register-form'],
-      bindings: {
-        User: {
-          profile: {
-            name: 'World'
-          }
-        }
-      },
+      template: Template['register-form']({
+        name: 'test'
+      })
+
       render: ->
         this.renderWithTemplate();
     )
 
-    console.log 'chat'
-    console.log 'gabba'
-    console.log window.gabba
-
-    User.set('profile', {
-      name: 'World'
-    });
-
   # HANDLE ERRORS
   error: ->
-    Page.set new View(template: '<h1>Error, page not found</h1>')
+    Page.set new View(template: '<h1>Page not found</h1>')
 
   # LOGIN PAGE
   login: ->

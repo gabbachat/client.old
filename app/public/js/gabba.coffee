@@ -9,9 +9,7 @@ module.exports = {
     @model.user = new UserModel()
 
     # DEFINE ROUTER
-    @Router = new Router
-
-    console.log Router
+    @Router = new Router()
 
     # ADD TO WINDOW
     window.gabba = @
