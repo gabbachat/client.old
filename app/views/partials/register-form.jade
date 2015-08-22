@@ -1,2 +1,38 @@
 section(classname='register')
-  h2(data-hook='name')#name Hey #{name}
+  img#register-avatar(src='{this.props.profile.avatar.src}', classname='avatar')
+  h1(data-hook='name') Hi #{name}
+  h3
+    | We've pulled in your information from {this.props.auth.provider}, just select a username and you're good to go!
+  
+  
+  section(classname='required')
+    label username
+    span#register-username-status(classname='form-status ok')
+    input#register-username(name='register-username', defaultvalue='{this.props.profile.username}', onchange='{this.checkUsername}')
+  
+  section(classname='optional')
+    h2 Edit Your Info
+    input#register-name(data-hook='name', name='register-name', placeholder='Name' value='#{name}')
+    input#register-email(name='register-email', placeholder='email@domain.com')
+    label Create a password (optional)
+    input#register-password(type='password', name='register-password', placeholder='Password')
+  
+  input#register-provider(type='hidden', name='register-provider', value='{this.props.auth.provider}', readonly='')
+  input#register-tkn(type='hidden', name='register-tkn', value='{this.props.auth.token}', readonly='')
+  input#register-scrt(type='hidden', name='register-scrt', value='{this.props.auth.secret}', readonly='')
+  input#register-location(type='hidden', name='register-location', value='{this.props.profile.location}', readonly='')
+  input#twitter-id(type='hidden', name='twitter-id', value='{this.props.social.twitter.id}', readonly='')
+  input#twitter-handle(type='hidden', name='twitter-handle', value='{this.props.social.twitter.handle}', readonly='')
+  input#twitter-info(type='hidden', name='twitter-info', value='{this.props.social.twitter.info}', readonly='')
+  input#twitter-avatar(type='hidden', name='twitter-avatar', value='{this.props.social.twitter.avatar}', readonly='')
+  input#twitter-url(type='hidden', name='twitter-url', value='{this.props.social.twitter.url}', readonly='')
+  input#twitter-name(type='hidden', name='twitter-name', value='{this.props.social.twitter.name}', readonly='')
+  input#twitter-location(type='hidden', name='twitter-location', value='{this.props.social.twitter.location}', readonly='')
+  input#github-id(type='hidden', name='github-id', value='{this.props.social.github.id}', readonly='')
+  input#github-handle(type='hidden', name='github-handle', value='{this.props.social.github.handle}', readonly='')
+  input#github-info(type='hidden', name='github-info', value='{this.props.social.github.info}', readonly='')
+  input#github-avatar(type='hidden', name='github-avatar', value='{this.props.social.github.avatar}', readonly='')
+  input#github-url(type='hidden', name='github-url', value='{this.props.social.github.url}', readonly='')
+  input#github-name(type='hidden', name='github-name', value='{this.props.social.github.name}', readonly='')
+  input#github-location(type='hidden', name='github-location', value='{this.props.social.github.location}', readonly='')
+  button#register-submit(classname='button primary', onclick='{this.registerUser}') Go

@@ -1,18 +1,19 @@
-Router = require '../_dist/js/modules/router'
-UserModel = require '../_dist/models/user'
 
 module.exports = {
 
   # INITIALIZE
   init: ->
 
-    @model.user = new UserModel()
+    Router = require '../_dist/js/modules/router'
+    # UserModel = require '../_dist/models/user'
+
+    # @model.user = new UserModel()
 
     # DEFINE ROUTER
     @Router = new Router()
 
     # ADD TO WINDOW
-    window.gabba = @
+    window.app = @
 
     console.log 'Gabba gabba hey'
 
@@ -21,10 +22,10 @@ module.exports = {
 
   # NAVIGATION OBJECT
   navigate: (url) ->
-    gabba.history.navigate url, true
+    app.history.navigate url, true
     return
 
-  auth: require '../_dist/js/modules/auth'
+  # auth: require '../_dist/js/modules/auth'
 
 }
 

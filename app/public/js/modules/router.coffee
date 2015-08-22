@@ -36,14 +36,29 @@ module.exports = AmpersandRouter.extend(
   # HANDLE ERRORS
   chat: ->
 
-    Page.set new View(
-      template: Template['register-form']({
-        name: 'test'
-      })
+    console.log 'CHAT ROUTER'
 
-      render: ->
-        this.renderWithTemplate();
-    )
+    user = 'new'
+
+    if user == 'new'
+      Page.set new View(
+        template: Template['register-form']({
+          name: 'test'
+        })
+
+        render: ->
+          this.renderWithTemplate();
+      )
+    else
+      Page.set new View(
+        template: Template['chat']({
+          name: 'test'
+        })
+
+        render: ->
+          this.renderWithTemplate();
+      )
+
 
   # HANDLE ERRORS
   error: ->

@@ -40,14 +40,28 @@ module.exports = AmpersandRouter.extend({
     return console.log('index route loaded');
   },
   chat: function() {
-    return Page.set(new View({
-      template: Template['register-form']({
-        name: 'test'
-      }),
-      render: function() {
-        return this.renderWithTemplate();
-      }
-    }));
+    var user;
+    console.log('CHAT ROUTER');
+    user = 'new';
+    if (user === 'new') {
+      return Page.set(new View({
+        template: Template['register-form']({
+          name: 'test'
+        }),
+        render: function() {
+          return this.renderWithTemplate();
+        }
+      }));
+    } else {
+      return Page.set(new View({
+        template: Template['chat']({
+          name: 'test'
+        }),
+        render: function() {
+          return this.renderWithTemplate();
+        }
+      }));
+    }
   },
   error: function() {
     return Page.set(new View({
